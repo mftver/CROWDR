@@ -1,3 +1,19 @@
 body {
-  background: gray;
+  color: rgb(29, 29, 29);
+}
+
+td {
+  border: 1px solid black;
+  width: 3.5em;
+  height: 3.5em;
+  text-align: center;
+}
+
+#draggable {
+  border: 1px solid red;
+  background-color: gray;
+  width: 3.5em;
+  height: 3.5em;
+  text-align: center;
+  user-select: none;
 }
