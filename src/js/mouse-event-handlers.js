@@ -14,11 +14,11 @@ export function OnMouseMove(e) {
 
 export function OnMouseUp(e) {
   const clickedElement = document.getElementById('dragging');
-  // Return draggable element back to original position
-  clickedElement.style.position = 'inherit';
-
   // check if the user is holding an item
   if (isDragging) {
+    // Return draggable element back to original position
+    clickedElement.style.position = 'inherit';
+
     // Check on which table field the element was dropped
     const tableCell = document.elementFromPoint(e.pageX, e.pageY);
     if (tableCell.classList.contains('selectable-cell')) {
