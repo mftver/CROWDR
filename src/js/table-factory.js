@@ -1,4 +1,4 @@
-export default function generateTable(table) {
+export default function generateTable() {
   let table = document.createElement("table");
   document.body.appendChild(table);
   

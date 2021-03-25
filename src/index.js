@@ -5,7 +5,7 @@ import * as mouseEventHandlers from './js/mouse-event-handlers';
 
 window.onload = () => {
     // Generate table
-    generateTable(table);
+    generateTable();
 };
 
 
