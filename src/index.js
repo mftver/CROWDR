@@ -11,7 +11,7 @@ window.onload = () => {
 
     // Generate draggable element
     let draggableElement = document.createElement('div');
-    draggableElement.setAttribute('id', 'draggable');
+    draggableElement.setAttribute('class', 'draggable');
     draggableElement.textContent = 'Drag me!';
     document.body.appendChild(draggableElement);
 };
@@ -33,15 +33,14 @@ function generateTable(table) {
 // Check if user clicks on draggable item
 document.onmousedown = (e) => {
     let clickedElement = e.target;
-    if (clickedElement.id === "draggable") {
+    if (clickedElement.classList.contains("draggable")) {
         isDragging = true;
+        clickedElement.id = "dragging";
     }
 };
 
 document.onmouseup = (e) => {
-
-
-    let clickedElement = document.getElementById('draggable');
+    let clickedElement = document.getElementById('dragging');
     // Return draggable element back to original position
     clickedElement.style.position = 'inherit';
 
@@ -60,7 +59,7 @@ document.onmouseup = (e) => {
 // Event handler for moving item while in drag mode
 document.onmousemove = (e) => {
     if (isDragging) {
-        let clickedElement = document.getElementById('draggable');
+        let clickedElement = document.getElementById('dragging');
         // Make element draggable
         clickedElement.style.position = 'fixed';
         // Make element follow cursor
