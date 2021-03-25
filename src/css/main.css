@@ -9,13 +9,31 @@ td {
   text-align: center;
 }
 
+.draggable-container {
+  height: calc(3.5em*3);
+  width: 100vw;
+  display: flex;
+}
+
 .draggable {
   border: 1px solid red;
   background-color: gray;
-  width: 3.5em;
-  height: 3.5em;
   text-align: center;
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tent stylings */
+.Tent1x1 {
+  width: 3.5em;
+  height: 3.5em;
+}
+
+.Tent3x3 {
+  width: calc(3.5em*3);
+  height: calc(3.5em*3);
 }
 
 .selectable-cell {

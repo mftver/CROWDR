@@ -8,12 +8,6 @@ window.onload = () => {
     let table = document.createElement("table");
     document.body.appendChild(table);
     generateTable(table);
-
-    // Generate draggable element
-    let draggableElement = document.createElement('div');
-    draggableElement.setAttribute('class', 'draggable');
-    draggableElement.textContent = 'Drag me!';
-    document.body.appendChild(draggableElement);
 };
 
 function generateTable(table) {
@@ -52,6 +46,7 @@ document.onmouseup = (e) => {
             tableCell.classList.remove('selectable-cell');
             tableCell.classList.add('selected-cell')
         }
+        clickedElement.removeAttribute('id');
         isDragging = false;
     }
 }
