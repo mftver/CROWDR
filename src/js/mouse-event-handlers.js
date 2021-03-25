@@ -1,3 +1,5 @@
+import placeableMapper from './js/placementLogic';
+
 let isDragging = false;
 
 // Event handler for moving item while in drag mode
@@ -13,19 +15,20 @@ export function OnMouseMove(e) {
 }
 
 export function OnMouseUp(e) {
-  let clickedElement = document.getElementById('dragging');
+  let draggedElement = document.getElementById('dragging');
   // Return draggable element back to original position
-  clickedElement.style.position = 'inherit';
+  draggedElement.style.position = 'inherit';
 
   //check if the user is holding an item
   if (isDragging) {
       // Check on which table field the element was dropped
       let tableCell = document.elementFromPoint(e.pageX, e.pageY);
       if (tableCell.classList.contains('selectable-cell')) {
-          tableCell.classList.remove('selectable-cell');
-          tableCell.classList.add('selected-cell')
+        placeableMapper(draggedElement,tableCell);
+          //tableCell.classList.remove('selectable-cell');
+          //tableCell.classList.add('selected-cell')
       }
-      clickedElement.removeAttribute('id');
+      draggedElement.removeAttribute('id');
       isDragging = false;
   }
 }
