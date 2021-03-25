@@ -4,18 +4,18 @@ function closeTableCell(tableCell) {
 }
 
 function placePartyTent(tableCell) {
-  closeTableCell(tableCell);
-}
-
-function placeFoodTent(tableCell) {
-  const yCoordinate = tableCell.getAtribute('data-coord-y') - 1;
-  const xCoordinate = tableCell.getAtribute('data-coord-x') - 1;
+  const yCoordinate = tableCell.getAttribute('data-coord-y') - 1;
+  const xCoordinate = tableCell.getAttribute('data-coord-x') - 1;
 
   for (let i = 0; i < 3; i += 1) {
     for (let j = 0; j < 3; j += 1) {
       closeTableCell(document.querySelector(`[data-coord-x='${xCoordinate + i}'][data-coord-y='${yCoordinate + j}']`));
     }
   }
+}
+
+function placeFoodTent(tableCell) {
+  closeTableCell(tableCell);
 }
 
 export default function placeableMapper(draggedElement, tablecell) {
