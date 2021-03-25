@@ -17,3 +17,10 @@ td {
   text-align: center;
   user-select: none;
 }
+
+.selectable-cell {
+  background-color: lightgreen;
+}
+.selected-cell {
+  background-color: lightskyblue;
+}
