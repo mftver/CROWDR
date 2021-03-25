@@ -1,0 +1,33 @@
+{
+  "name": "crowdr",
+  "version": "1.0.0",
+  "description": "Assignment web javascript",
+  "main": "assets/js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mftver/CROWDR.git"
+  },
+  "author": "Job & Mark",
+  "bugs": {
+    "url": "https://github.com/mftver/CROWDR/issues"
+  },
+  "homepage": "https://github.com/mftver/CROWDR#readme",
+  "devDependencies": {
+    "css-loader": "^5.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.9.1",
+    "bootstrap": "^5.0.0-beta3"
+  }
+}
