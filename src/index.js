@@ -6,7 +6,7 @@ import FormStepOne from './components/form-step-1/form-step-1';
 
 window.onload = () => {
   // Generate table
-  // generateTable();
+  generateTable();
 };
 
 // Define custom HTML elements

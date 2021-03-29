@@ -9,8 +9,8 @@ export function OnMouseMove(e) {
     // Make element draggable
     clickedElement.style.position = 'fixed';
     // Make element follow cursor
-    clickedElement.style.top = `${e.pageY - (clickedElement.clientHeight / 2)}px`;
-    clickedElement.style.left = `${e.pageX - (clickedElement.clientWidth / 2)}px`;
+    clickedElement.style.top = `${e.clientY - (clickedElement.clientHeight / 2.5)}px`;
+    clickedElement.style.left = `${e.clientX - (clickedElement.clientWidth / 2.5)}px`;
   }
 }
 
@@ -22,7 +22,7 @@ export function OnMouseUp(e) {
     draggableElement.style.position = 'inherit';
 
     // Check on which table field the element was dropped
-    const tableCell = document.elementFromPoint(e.pageX, e.pageY);
+    const tableCell = document.elementFromPoint(e.clientX, e.clientY);
     if (tableCell.classList.contains('selectable-cell')) {
       placeableMapper(draggableElement, tableCell);
     }
