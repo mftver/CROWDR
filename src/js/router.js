@@ -1,6 +1,6 @@
 // Based on https://medium.com/javascript-by-doing/create-a-modern-javascript-router-805fc14d084d
 
-class Router {
+export default class Router {
   routes = [];
 
   mode = null;
@@ -14,12 +14,12 @@ class Router {
     this.listen();
   }
 
-  add = (path, cb) => {
+  add(path, cb) {
     this.routes.push({ path, cb });
     return this;
-  };
+  }
 
-  remove = (path) => {
+  remove(path) {
     for (let i = 0; i < this.routes.length; i += 1) {
       if (this.routes[i].path === path) {
         this.routes.slice(i, 1);
@@ -27,19 +27,19 @@ class Router {
       }
     }
     return this;
-  };
+  }
 
-  flush = () => {
+  flush() {
     this.routes = [];
     return this;
-  };
+  }
 
   clearSlashes = (path) => path
     .toString()
     .replace(/\/$/, '')
     .replace(/^\//, '');
 
-  getFragment = () => {
+  getFragment() {
     let fragment = '';
     if (this.mode === 'history') {
       fragment = this.clearSlashes(decodeURI(window.location.pathname + window.location.search));
@@ -50,23 +50,23 @@ class Router {
       fragment = match ? match[1] : '';
     }
     return this.clearSlashes(fragment);
-  };
+  }
 
-  navigate = (path = '') => {
+  navigate(path = '') {
     if (this.mode === 'history') {
       window.history.pushState(null, null, this.root + this.clearSlashes(path));
     } else {
       window.location.href = `${window.location.href.replace(/#(.*)$/, '')}#${path}`;
     }
     return this;
-  };
+  }
 
-  listen = () => {
+  listen() {
     clearInterval(this.interval);
-    this.interval = setInterval(this.interval, 50);
-  };
+    this.interval = setInterval(this.interval(), 50);
+  }
 
-  interval = () => {
+  interval() {
     if (this.current === this.getFragment()) return;
     this.current = this.getFragment();
 
@@ -79,7 +79,5 @@ class Router {
       }
       return false;
     });
-  };
+  }
 }
-
-export default Router;
