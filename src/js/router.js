@@ -1,24 +1,25 @@
 // Based on https://medium.com/javascript-by-doing/create-a-modern-javascript-router-805fc14d084d
 
-export default class Router {
+class Router {
+  routes = [];
+
+  mode = null;
+
+  root = '/';
+
   constructor(options) {
     this.mode = window.history.pushState ? 'history' : 'hash';
     if (options.mode) this.mode = options.mode;
     if (options.root) this.root = options.root;
-
-    this.routes = [];
-    this.mode = null;
-    this.root = '/';
-
     this.listen();
   }
 
-  add(path, cb) {
+  add = (path, cb) => {
     this.routes.push({ path, cb });
     return this;
-  }
+  };
 
-  remove(path) {
+  remove = (path) => {
     for (let i = 0; i < this.routes.length; i += 1) {
       if (this.routes[i].path === path) {
         this.routes.slice(i, 1);
@@ -26,21 +27,19 @@ export default class Router {
       }
     }
     return this;
-  }
+  };
 
-  flush() {
+  flush = () => {
     this.routes = [];
     return this;
-  }
+  };
 
-  static clearSlashes(path) {
-    return path
-      .toString()
-      .replace(/\/$/, '')
-      .replace(/^\//, '');
-  }
+  clearSlashes = (path) => path
+    .toString()
+    .replace(/\/$/, '')
+    .replace(/^\//, '');
 
-  getFragment() {
+  getFragment = () => {
     let fragment = '';
     if (this.mode === 'history') {
       fragment = this.clearSlashes(decodeURI(window.location.pathname + window.location.search));
@@ -51,23 +50,23 @@ export default class Router {
       fragment = match ? match[1] : '';
     }
     return this.clearSlashes(fragment);
-  }
+  };
 
-  navigate(path = '') {
+  navigate = (path = '') => {
     if (this.mode === 'history') {
       window.history.pushState(null, null, this.root + this.clearSlashes(path));
     } else {
       window.location.href = `${window.location.href.replace(/#(.*)$/, '')}#${path}`;
     }
     return this;
-  }
+  };
 
-  listen() {
+  listen = () => {
     clearInterval(this.interval);
     this.interval = setInterval(this.interval, 50);
-  }
+  };
 
-  interval() {
+  interval = () => {
     if (this.current === this.getFragment()) return;
     this.current = this.getFragment();
 
@@ -80,5 +79,7 @@ export default class Router {
       }
       return false;
     });
-  }
+  };
 }
+
+export default Router;

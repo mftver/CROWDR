@@ -4,15 +4,10 @@ import generateTable from './js/table-factory';
 import * as mouseEventHandlers from './js/mouse-event-handlers';
 import FormStepOne from './components/form-step-1/form-step-1';
 import Router from './js/router';
-import Test from './js/test';
 
 window.onload = () => {
   // Generate table
   // generateTable();
-
-  const test = new Test();
-  test.counter();
-  test.anotherCounter();
 };
 
 // Define custom HTML elements
@@ -25,7 +20,7 @@ const router = new Router({
 });
 
 router
-  .add(/about/, () => {
+  .add(/link/, () => {
     alert('welcome in about page');
   })
   .add(/products\/(.*)\/specification\/(.*)/, (id, specification) => {
