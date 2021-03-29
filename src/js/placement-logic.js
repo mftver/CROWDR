@@ -41,7 +41,9 @@ function place3x3(tableCell) {
 }
 
 function place1x1(tableCell) {
-  closeTableCell(tableCell);
+  if (canPlace(tableCell.getAttribute('data-coord-x'), tableCell.getAttribute('data-coord-y'))) {
+    closeTableCell(tableCell);
+  }
 }
 
 function place1x2(tableCell) {
@@ -51,7 +53,9 @@ function place1x2(tableCell) {
   const possitionsToBePlaced = new Array(0);
 
   for (let i = 0; i < 2; i += 1) {
-    possitionsToBePlaced.push([xCoordinate + i, yCoordinate]);
+    if (canPlace(xCoordinate + i, yCoordinate)) {
+      possitionsToBePlaced.push([xCoordinate + i, yCoordinate]);
+    }
   }
 
   if (possitionsToBePlaced.length === 2) {
@@ -66,7 +70,9 @@ function place2x1(tableCell) {
   const possitionsToBePlaced = new Array(0);
 
   for (let i = 0; i < 2; i += 1) {
-    possitionsToBePlaced.push([xCoordinate, yCoordinate + i]);
+    if (canPlace(xCoordinate, yCoordinate + i)) {
+      possitionsToBePlaced.push([xCoordinate, yCoordinate + i]);
+    }
   }
 
   if (possitionsToBePlaced.length === 2) {
