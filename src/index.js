@@ -14,10 +14,7 @@ window.onload = () => {
 customElements.define('form-step-one', FormStepOne);
 
 // Setup router
-const router = new Router({
-  mode: 'hash',
-  root: '/',
-});
+const router = new Router();
 
 router
   .add(/link/, () => {
