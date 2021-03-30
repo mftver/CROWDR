@@ -13,6 +13,19 @@ module.exports = {
   },
   module: {
     rules: [
+      // Support ES6 in Webpack https://hackernoon.com/how-to-use-es6-with-webpack-xyz3u3h
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env',
+            {
+              plugins: ['@babel/plugin-proposal-class-properties'],
+            },
+          ],
+        },
+      },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
