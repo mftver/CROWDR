@@ -16,21 +16,23 @@ customElements.define('form-step-one', FormStepOne);
 // Setup router
 const router = new Router();
 
+function SetRouterOutput(htmlTag) {
+  document.getElementsByTagName('router-output')[0].innerHTML = `<${htmlTag}></${htmlTag}>`;
+}
+
 router
-  .add(/link/, () => {
-    alert('welcome in about page');
+  .add('link', () => {
+    SetRouterOutput('div');
   })
   .add(/products\/(.*)\/specification\/(.*)/, (id, specification) => {
-    alert(`products: ${id} specification: ${specification}`);
+    SetRouterOutput('div');
   })
   .add('', () => {
-    // general controller
-    console.log('welcome in catch all controller');
+    SetRouterOutput('form-step-one');
   });
 
 // Assign event handlers
 document.onmousedown = mouseEventHandlers.OnMouseDown;
 document.onmouseup = mouseEventHandlers.OnMouseUp;
 document.onmousemove = mouseEventHandlers.OnMouseMove;
-document.querySelector('form-step-one')
-  .addEventListener('formsubmit', (e) => localStorage.setItem('formValues', JSON.stringify(e.detail)));
+document.addEventListener('formsubmit', (e) => localStorage.setItem('formValues', JSON.stringify(e.detail)));
