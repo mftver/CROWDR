@@ -5,7 +5,7 @@ import htmlStep4 from './form-step-4.html';
 import htmlStep5 from './form-step-5.html';
 import htmlStep6 from './form-step-6.html';
 import htmlStep7 from './form-step-7.html';
-import TimesFormSubmitted from '../js/timesSubmittedForm';
+import TimesFormSubmitted from '../../js/timesSubmittedForm';
 
 export default class FormStepOne extends HTMLElement {
   constructor() {
