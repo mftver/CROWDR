@@ -13,7 +13,7 @@ export default class FormStepOne extends HTMLElement {
 
     this.innerHTML = htmlStep1;
     this.querySelector('form').addEventListener('submit', (e) => this.submitForm(e));
-    this.querySelector('#reset-form').addEventListener('click', (e) => this.resetForm(e));
+    this.querySelector('#reset-form').addEventListener('click', () => this.resetForm());
   }
 
   submitForm(e) {
