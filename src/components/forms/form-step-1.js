@@ -7,6 +7,7 @@ import htmlStep6 from './form-step-6.html';
 import htmlStep7 from './form-step-7.html';
 import FormValidation from './form-validation';
 import TimesFormSubmitted from '../../js/timesSubmittedForm';
+import WarningElement from '../warning/warning-element';
 
 export default class FormStepOne extends HTMLElement {
   constructor() {
@@ -29,7 +30,7 @@ export default class FormStepOne extends HTMLElement {
 
     const warnings = FormValidation.isFormCorrect(formObject);
 
-    if (warnings.lenght === 0) {
+    if (warnings.length === 0) {
       // Emit event with form data
       this.dispatchEvent(new CustomEvent('formsubmit', {
         // These 3 parameters make sure the event is actually emitted https://stackoverflow.com/a/53804106/10557332
@@ -45,7 +46,7 @@ export default class FormStepOne extends HTMLElement {
         this.saveForm(formObject);
       }
     } else {
-      showWarnings(warnings);
+      this.showWarnings(warnings);
     }
   }
 
@@ -122,5 +123,11 @@ export default class FormStepOne extends HTMLElement {
       }
     }
     return returnvalue;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  showWarnings(warnings) {
+    const element = this.getElementsByTagName('warning-element')[0];
+    element.setAttribute('data-warnings', JSON.stringify(warnings));
   }
 }
