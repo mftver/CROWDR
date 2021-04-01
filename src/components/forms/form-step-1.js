@@ -90,7 +90,6 @@ export default class FormStepOne extends HTMLElement {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   resetForm() {
     TimesFormSubmitted.resetTimesSubmitted();
 
@@ -124,7 +123,6 @@ export default class FormStepOne extends HTMLElement {
     return returnvalue;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   showWarnings(warnings) {
     const element = this.getElementsByTagName('warning-element')[0];
     element.setAttribute('data-warnings', JSON.stringify(warnings));
