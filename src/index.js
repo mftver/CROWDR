@@ -36,4 +36,7 @@ document.onmousedown = mouseEventHandlers.OnMouseDown;
 document.onmouseup = mouseEventHandlers.OnMouseUp;
 document.onmousemove = mouseEventHandlers.OnMouseMove;
 document.addEventListener('formsubmit', (e) => localStorage.setItem('formValues', JSON.stringify(e.detail)));
-document.addEventListener('resetform', () => SetRouterOutput('form-step-one'));
+document.addEventListener('resetform', () => {
+  SetRouterOutput('form-step-one');
+  localStorage.removeItem('formValues');
+});
