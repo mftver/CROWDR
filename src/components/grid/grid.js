@@ -1,6 +1,5 @@
 import html from './grid.html';
 import placeableMapper from '../../js/placement-logic';
-import FieldObjects from '../../js/field-objects';
 
 export default class GridElement extends HTMLElement {
   isDragging = false;
@@ -53,8 +52,14 @@ export default class GridElement extends HTMLElement {
       // Check on which table field the element was dropped
       const tableCell = document.elementFromPoint(e.clientX, e.clientY);
       if (tableCell.classList.contains('selectable-cell')) {
+        const x = tableCell.getAttribute('data-coord-x');
+        const y = tableCell.getAttribute('data-coord-y');
         const placedType = placeableMapper(draggableElement, tableCell);
-        console.log(placedType);
+
+        // Check if object was placed
+        if (placedType !== null) {
+          this.EmitObjectPlaced(placedType, x, y);
+        }
       }
       draggableElement.removeAttribute('id');
       this.isDragging = false;
@@ -68,5 +73,19 @@ export default class GridElement extends HTMLElement {
       this.isDragging = true;
       clickedElement.id = 'dragging';
     }
+  }
+
+  EmitObjectPlaced(objectType, x, y) {
+    this.dispatchEvent(new CustomEvent('placefieldobject', {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      detail: {
+        fieldId: 1,
+        type: objectType,
+        x,
+        y,
+      },
+    }));
   }
 }

@@ -40,3 +40,23 @@ document.addEventListener('resetform', () => {
   SetRouterOutput('form-step-one');
   localStorage.removeItem('formValues');
 });
+
+document.addEventListener('placefieldobject', (e) => {
+  let currentValue = JSON.parse(localStorage.getItem(e.detail.fieldId));
+  // Instantiate object if not yet used
+  if (currentValue === null) {
+    currentValue = [];
+  }
+  const { x } = e.detail;
+  const { y } = e.detail;
+
+  if (currentValue[x] === undefined || currentValue[x] === null) {
+    currentValue[x] = [];
+  }
+
+  currentValue[x][y] = e.detail.type;
+
+  console.log(currentValue);
+
+  localStorage.setItem(e.detail.fieldId, JSON.stringify(currentValue));
+});
