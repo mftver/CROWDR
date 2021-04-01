@@ -91,10 +91,16 @@ export default class GridElement extends HTMLElement {
     }));
   }
 
+  /**
+   * @returns ID of the current grid element
+   */
   GetFieldId() {
     return this.getAttribute('data-field-id') - 0;
   }
 
+  /**
+   * Retrieves stored field layout from previous sessions
+   */
   GetStoredFieldData() {
     const fieldData = JSON.parse(localStorage.getItem(`field:${this.GetFieldId()}`));
     if (fieldData === null) return;
@@ -103,11 +109,14 @@ export default class GridElement extends HTMLElement {
       if (xArray === null) return;
 
       xArray.forEach((objectType, y) => {
+        // Create element according to object type
         const fieldElement = document.createElement('div');
         fieldElement.setAttribute('data-coord-x', x);
         fieldElement.setAttribute('data-coord-y', y);
         fieldElement.setAttribute('class', objectType);
 
+        // Find element that should be passed to placeable mapper
+        // to change the corresponding fields around it
         const hoverElement = this.querySelector(`[data-coord-x='${x}'][data-coord-y='${y}']`);
 
         placeableMapper(fieldElement, hoverElement);
