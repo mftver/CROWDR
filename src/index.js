@@ -1,7 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
-import generateTable from './js/table-factory';
-import * as mouseEventHandlers from './js/mouse-event-handlers';
 import FormStepOne from './components/forms/form-step-1';
 import GridElement from './components/grid/grid';
 import Router from './js/router';
@@ -37,9 +35,6 @@ router
   });
 
 // Assign event handlers
-document.onmousedown = mouseEventHandlers.OnMouseDown;
-document.onmouseup = mouseEventHandlers.OnMouseUp;
-document.onmousemove = mouseEventHandlers.OnMouseMove;
 document.addEventListener('formsubmit', (e) => localStorage.setItem('formValues', JSON.stringify(e.detail)));
 document.addEventListener('resetform', () => {
   SetRouterOutput('form-step-one');

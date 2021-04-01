@@ -1,9 +1,17 @@
 import html from './grid.html';
+import * as mouseEventHandlers from '../../js/mouse-event-handlers';
 
 export default class GridElement extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = html;
+
+    // Assign mouse event handlers
+    this.onmousedown = mouseEventHandlers.OnMouseDown;
+    this.onmouseup = mouseEventHandlers.OnMouseUp;
+    this.onmousemove = mouseEventHandlers.OnMouseMove;
+
+    // Generate table
     const table = document.createElement('table');
     this.appendChild(table);
 
