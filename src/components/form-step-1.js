@@ -6,6 +6,7 @@ import htmlStep5 from './form-step-5.html';
 import htmlStep6 from './form-step-6.html';
 import htmlStep7 from './form-step-7.html';
 import TimesFormSubmitted from '../js/timesSubmittedForm';
+import FormValidation from './form- validation';
 
 export default class FormStepOne extends HTMLElement {
   constructor() {
@@ -26,21 +27,30 @@ export default class FormStepOne extends HTMLElement {
       formObject[name] = value;
     }
 
-    // Emit event with form data
-    this.dispatchEvent(new CustomEvent('formsubmit', {
-      // These 3 parameters make sure the event is actually emitted https://stackoverflow.com/a/53804106/10557332
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: formObject,
-    }));
+    const warnings = FormValidation.isFormCorrect(formObject);
 
-    TimesFormSubmitted.addTimes();
-    this.addNextStepToForm(e.target);
+    if (warnings.lenght === 0) {
+      // Emit event with form data
+      this.dispatchEvent(new CustomEvent('formsubmit', {
+        // These 3 parameters make sure the event is actually emitted https://stackoverflow.com/a/53804106/10557332
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: formObject,
+      }));
+
+      TimesFormSubmitted.addTimes();
+
+      if (this.addNextStepToForm(e.target)) {
+        this.saveForm(formObject);
+      }
+    } else {
+      showWarnings(warnings);
+    }
   }
 
   addNextStepToForm(form) {
-    const htmlToAdd = this.decideWhatStepToAdd();
+    const htmlToAdd = this.decideWhatStepIsNext();
     if (htmlToAdd !== null) {
       // Remove button from form to append it at bottom later
       const submitButton = form.querySelector('button[type=submit]');
@@ -48,11 +58,13 @@ export default class FormStepOne extends HTMLElement {
       // eslint-disable-next-line no-param-reassign
       form.insertAdjacentHTML('beforeend', htmlToAdd);
       form.appendChild(submitButton);
+      return true;
     }
+    return false;
   }
 
   // eslint-disable-next-line class-methods-use-this
-  decideWhatStepToAdd() {
+  decideWhatStepIsNext() {
     const timesSubmitted = TimesFormSubmitted.getTimes();
     switch (timesSubmitted) {
       case 2:
@@ -88,5 +100,27 @@ export default class FormStepOne extends HTMLElement {
       cancelable: false,
       composed: true,
     }));
+  }
+
+  saveForm(formObject) {
+    const id = this.getId();
+
+    if (id !== null) {
+      localStorage.setItem(`region:${id}`, formObject);
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getId() {
+    let returnvalue = null;
+
+    for (let index = 0; index < 6; index += 1) {
+      const region = localStorage.getItem(`region:${index}`);
+      if (region === null) {
+        returnvalue = index;
+        break;
+      }
+    }
+    return returnvalue;
   }
 }
