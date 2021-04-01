@@ -41,8 +41,12 @@ export default class FormStepOne extends HTMLElement {
   addNextStepToForm(form) {
     const htmlToAdd = this.decideWhatStepToAdd();
     if (htmlToAdd !== null) {
+      // Remove button from form to append it at bottom later
+      const submitButton = form.querySelector('button[type=submit]');
+      submitButton.parentNode.removeChild(submitButton);
       // eslint-disable-next-line no-param-reassign
       form.innerHTML += htmlToAdd;
+      form.appendChild(submitButton);
     }
   }
 
