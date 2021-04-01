@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
 import generateTable from './js/table-factory';
 import * as mouseEventHandlers from './js/mouse-event-handlers';
-import FormStepOne from './components/form-step-1/form-step-1';
+import FormStepOne from './components/form-step-1';
 import Router from './js/router';
 
 window.onload = () => {
