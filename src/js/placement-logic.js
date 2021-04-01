@@ -1,3 +1,5 @@
+import FieldObjects from './field-objects';
+
 function closeTableCell(tableCell) {
   tableCell.classList.remove('selectable-cell');
   tableCell.classList.add('selected-cell');
@@ -95,20 +97,33 @@ function place1x3(tableCell) {
   }
 }
 
-export default function placeableMapper(draggedElement, tablecell) {
+export default function splaceableMapper(draggedElement, tablecell) {
   if (draggedElement.classList.contains('Tent3x3')) {
     place3x3(tablecell);
-  } else if (draggedElement.classList.contains('Tent1x1')) {
+    return FieldObjects.Tent3x3;
+  }
+  if (draggedElement.classList.contains('Tent1x1')) {
     place1x1(tablecell);
-  } else if (draggedElement.classList.contains('Drinks')) {
+    return FieldObjects.Tent1x1;
+  }
+  if (draggedElement.classList.contains('Drinks')) {
     place1x2(tablecell);
-  } else if (draggedElement.classList.contains('HighTree')) {
+    return FieldObjects.Drinks;
+  }
+  if (draggedElement.classList.contains('HighTree')) {
     place1x1(tablecell);
-  } else if (draggedElement.classList.contains('wideTree')) {
+    return FieldObjects.HighTree;
+  }
+  if (draggedElement.classList.contains('WideTree')) {
     place2x1(tablecell);
-  } else if (draggedElement.classList.contains('ShadowTree')) {
+    return FieldObjects.WideTree;
+  }
+  if (draggedElement.classList.contains('ShadowTree')) {
     place3x3(tablecell);
-  } else if (draggedElement.classList.contains('Toilets')) {
+    return FieldObjects.ShadowTree;
+  }
+  if (draggedElement.classList.contains('Toilets')) {
     place1x3(tablecell);
+    return FieldObjects.Toilets;
   }
 }
