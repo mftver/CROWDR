@@ -14,9 +14,11 @@ form {
   flex-direction: column;
   width: 50vw;
 }
+
 form input,button {
   margin-top: 1em;
 }
+
 .draggable-container {
   height: calc(3.5em*3);
   width: 100vw;
@@ -72,6 +74,7 @@ form input,button {
 .selectable-cell {
   background-color: lightgreen;
 }
+
 .selected-cell {
   background-color: lightskyblue;
 }
