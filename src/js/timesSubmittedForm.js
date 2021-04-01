@@ -11,6 +11,10 @@ class TimesFormSubmitted {
     return this.times;
   }
 
+  resetTimesSubmitted() {
+    this.times = 1;
+  }
+
   addTimes() {
     if (this.getTimes() !== this.maxFormSteps) {
       this.times += 1;

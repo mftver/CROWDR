@@ -13,6 +13,7 @@ export default class FormStepOne extends HTMLElement {
 
     this.innerHTML = htmlStep1;
     this.querySelector('form').addEventListener('submit', (e) => this.submitForm(e));
+    document.getElementById('reset').addEventListener('click', (e) => this.resetForm(e));
   }
 
   submitForm(e) {
@@ -71,5 +72,13 @@ export default class FormStepOne extends HTMLElement {
       default:
         return null;
     }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  resetForm(e) {
+    e.target.parentNode.parentNode.innerHTML = '';
+    //e.target.parentNode.parentNode.createNewElement = htmlStep1;
+
+    TimesFormSubmitted.resetTimesSubmitted();
   }
 }
