@@ -1,3 +1,5 @@
+import FieldObjects from './field-objects';
+
 function closeTableCell(tableCell) {
   tableCell.classList.remove('selectable-cell');
   tableCell.classList.add('selected-cell');
@@ -19,6 +21,8 @@ function placeObject(coordinates) {
   coordinates.forEach((element) => {
     closeTableCell(document.querySelector(`[data-coord-x='${element[0]}'][data-coord-y='${element[1]}']`));
   });
+
+  return true;
 }
 
 function place3x3(tableCell) {
@@ -36,14 +40,17 @@ function place3x3(tableCell) {
   }
 
   if (possitionsToBePlaced.length === 9) {
-    placeObject(possitionsToBePlaced);
+    return placeObject(possitionsToBePlaced);
   }
+  return false;
 }
 
 function place1x1(tableCell) {
   if (canPlace(tableCell.getAttribute('data-coord-x'), tableCell.getAttribute('data-coord-y'))) {
     closeTableCell(tableCell);
+    return true;
   }
+  return false;
 }
 
 function place1x2(tableCell) {
@@ -59,8 +66,9 @@ function place1x2(tableCell) {
   }
 
   if (possitionsToBePlaced.length === 2) {
-    placeObject(possitionsToBePlaced);
+    return placeObject(possitionsToBePlaced);
   }
+  return false;
 }
 
 function place2x1(tableCell) {
@@ -76,8 +84,9 @@ function place2x1(tableCell) {
   }
 
   if (possitionsToBePlaced.length === 2) {
-    placeObject(possitionsToBePlaced);
+    return placeObject(possitionsToBePlaced);
   }
+  return false;
 }
 
 function place1x3(tableCell) {
@@ -91,24 +100,43 @@ function place1x3(tableCell) {
   }
 
   if (possitionsToBePlaced.length === 3) {
-    placeObject(possitionsToBePlaced);
+    return placeObject(possitionsToBePlaced);
   }
+  return false;
 }
 
 export default function placeableMapper(draggedElement, tablecell) {
+  let placed = false;
+  let placedType = null;
   if (draggedElement.classList.contains('Tent3x3')) {
-    place3x3(tablecell);
-  } else if (draggedElement.classList.contains('Tent1x1')) {
-    place1x1(tablecell);
-  } else if (draggedElement.classList.contains('Drinks')) {
-    place1x2(tablecell);
-  } else if (draggedElement.classList.contains('HighTree')) {
-    place1x1(tablecell);
-  } else if (draggedElement.classList.contains('wideTree')) {
-    place2x1(tablecell);
-  } else if (draggedElement.classList.contains('ShadowTree')) {
-    place3x3(tablecell);
-  } else if (draggedElement.classList.contains('Toilets')) {
-    place1x3(tablecell);
+    placed = place3x3(tablecell);
+    placedType = FieldObjects.Tent3x3;
   }
+  if (draggedElement.classList.contains('Tent1x1')) {
+    placed = place1x1(tablecell);
+    placedType = FieldObjects.Tent1x1;
+  }
+  if (draggedElement.classList.contains('Drinks')) {
+    placed = place1x2(tablecell);
+    placedType = FieldObjects.Drinks;
+  }
+  if (draggedElement.classList.contains('HighTree')) {
+    placed = place1x1(tablecell);
+    placedType = FieldObjects.HighTree;
+  }
+  if (draggedElement.classList.contains('WideTree')) {
+    placed = place2x1(tablecell);
+    placedType = FieldObjects.WideTree;
+  }
+  if (draggedElement.classList.contains('ShadowTree')) {
+    placed = place3x3(tablecell);
+    placedType = FieldObjects.ShadowTree;
+  }
+  if (draggedElement.classList.contains('Toilets')) {
+    placed = place1x3(tablecell);
+    placedType = FieldObjects.Toilets;
+  }
+
+  // return the placed type if item was placed
+  return placed ? placedType : null;
 }

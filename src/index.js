@@ -1,39 +1,54 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
-import generateTable from './js/table-factory';
-import * as mouseEventHandlers from './js/mouse-event-handlers';
-import FormStepOne from './components/form-step-1';
+import FormStepOne from './components/forms/form-step-1';
+import GridElement from './components/grid/grid';
 import Router from './js/router';
 
 window.onload = () => {
-  // Generate table
-  // generateTable();
+
 };
 
 // Define custom HTML elements
 customElements.define('form-step-one', FormStepOne);
+customElements.define('field-grid', GridElement);
 
 // Setup router
 const router = new Router();
 
 function SetRouterOutput(htmlTag) {
-  document.getElementsByTagName('router-output')[0].innerHTML = `<${htmlTag}></${htmlTag}>`;
+  document.getElementById('router-output').innerHTML = `<${htmlTag}></${htmlTag}>`;
 }
 
 router
   .add('link', () => {
     SetRouterOutput('div');
   })
-  .add(/products\/(.*)\/specification\/(.*)/, (id, specification) => {
-    SetRouterOutput('div');
+  .add(/grid\/(\d+)/, (fieldId) => {
+    const htmlTag = 'field-grid';
+    document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId}></${htmlTag}>`;
   })
   .add('', () => {
     SetRouterOutput('form-step-one');
   });
 
 // Assign event handlers
-document.onmousedown = mouseEventHandlers.OnMouseDown;
-document.onmouseup = mouseEventHandlers.OnMouseUp;
-document.onmousemove = mouseEventHandlers.OnMouseMove;
 document.addEventListener('formsubmit', (e) => localStorage.setItem('formValues', JSON.stringify(e.detail)));
-document.addEventListener('resetform', () => SetRouterOutput('form-step-one'));
+document.addEventListener('resetform', () => {
+  SetRouterOutput('form-step-one');
+  localStorage.removeItem('formValues');
+});
+
+document.addEventListener('placefieldobject', (e) => {
+  let field = JSON.parse(localStorage.getItem(`field:${e.detail.fieldId}`));
+  // Instantiate object if not yet used
+  if (field === null) {
+    field = [];
+  }
+  const { x, y } = e.detail;
+
+  if (field[x] === undefined || field[x] === null) {
+    field[x] = [];
+  }
+  field[x][y] = e.detail.type;
+  localStorage.setItem(`field:${e.detail.fieldId}`, JSON.stringify(field));
+});
