@@ -13,7 +13,7 @@ export default class FormStepOne extends HTMLElement {
 
     this.innerHTML = htmlStep1;
     this.querySelector('form').addEventListener('submit', (e) => this.submitForm(e));
-    document.getElementById('reset').addEventListener('click', (e) => this.resetForm(e));
+    this.querySelector('#reset-form').addEventListener('click', (e) => this.resetForm(e));
   }
 
   submitForm(e) {
@@ -79,9 +79,13 @@ export default class FormStepOne extends HTMLElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  resetForm(e) {
-    e.target.parentNode.parentNode.innerHTML = '';
-    //e.target.parentNode.parentNode.createNewElement = htmlStep1;
+  resetForm() {
+    this.dispatchEvent(new CustomEvent('resetform', {
+      // These 3 parameters make sure the event is actually emitted https://stackoverflow.com/a/53804106/10557332
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+    }));
 
     TimesFormSubmitted.resetTimesSubmitted();
   }
