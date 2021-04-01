@@ -81,11 +81,15 @@ export default class GridElement extends HTMLElement {
       cancelable: false,
       composed: true,
       detail: {
-        fieldId: 1,
+        fieldId: this.GetFieldId(),
         type: objectType,
         x,
         y,
       },
     }));
+  }
+
+  GetFieldId() {
+    return this.getAttribute('data-field-id') - 0;
   }
 }
