@@ -3,6 +3,7 @@ import './css/main.css';
 import FormStepOne from './components/forms/form-step-1';
 import GridElement from './components/grid/grid';
 import Router from './js/router';
+import WarningElement from './components/warning/warning-element';
 
 window.onload = () => {
 
@@ -11,6 +12,7 @@ window.onload = () => {
 // Define custom HTML elements
 customElements.define('form-step-one', FormStepOne);
 customElements.define('field-grid', GridElement);
+customElements.define('warning-element', WarningElement);
 
 // Setup router
 const router = new Router();
