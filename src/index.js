@@ -39,7 +39,7 @@ document.addEventListener('resetform', () => {
 });
 
 document.addEventListener('placefieldobject', (e) => {
-  let field = JSON.parse(localStorage.getItem(e.detail.fieldId));
+  let field = JSON.parse(localStorage.getItem(`field:${e.detail.fieldId}`));
   // Instantiate object if not yet used
   if (field === null) {
     field = [];
@@ -50,5 +50,5 @@ document.addEventListener('placefieldobject', (e) => {
     field[x] = [];
   }
   field[x][y] = e.detail.type;
-  localStorage.setItem(e.detail.fieldId, JSON.stringify(field));
+  localStorage.setItem(`field:${e.detail.fieldId}`, JSON.stringify(field));
 });

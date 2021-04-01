@@ -28,6 +28,8 @@ export default class GridElement extends HTMLElement {
         cell.appendChild(text);
       }
     }
+
+    this.GetStoredFieldData();
   }
 
   // Event handler for moving item while in drag mode
@@ -91,5 +93,25 @@ export default class GridElement extends HTMLElement {
 
   GetFieldId() {
     return this.getAttribute('data-field-id') - 0;
+  }
+
+  GetStoredFieldData() {
+    const fieldData = JSON.parse(localStorage.getItem(`field:${this.GetFieldId()}`));
+    if (fieldData === null) return;
+
+    fieldData.forEach((xArray, x) => {
+      if (xArray === null) return;
+
+      xArray.forEach((objectType, y) => {
+        const fieldElement = document.createElement('div');
+        fieldElement.setAttribute('data-coord-x', x);
+        fieldElement.setAttribute('data-coord-y', y);
+        fieldElement.setAttribute('class', objectType);
+
+        const hoverElement = this.querySelector(`[data-coord-x='${x}'][data-coord-y='${y}']`);
+
+        placeableMapper(fieldElement, hoverElement);
+      });
+    });
   }
 }
