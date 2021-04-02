@@ -35,10 +35,22 @@ form input,button {
   align-items: center;
 }
 
+.selectable-cell {
+  background-color: lightgreen;
+}
+
+.selected-cell {
+  background-color: lightskyblue;
+}
+
 /* Tent stylings */
 .Tent1x1 {
   width: 3.5em;
   height: 3.5em;
+}
+
+.cell-Tent1x1 {
+  background-color: aquamarine;
 }
 
 .Tent3x3 {
@@ -46,9 +58,17 @@ form input,button {
   height: calc(3.5em*3);
 }
 
+.cell-Tent3x3 {
+  background-color: chartreuse;
+}
+
 .Drinks{
   width: calc(3.5em*2);
   height: calc(3.5em);
+}
+
+.cell-Drinks {
+  background-color: violet;
 }
 
 .HighTree{
@@ -56,9 +76,17 @@ form input,button {
   height: calc(3.5em);
 }
 
+.cell-HighTree {
+  background-color: teal;
+}
+
 .wideTree{
   width: calc(3.5em);
   height: calc(3.5em*2);
+}
+
+.cell-wideTree {
+  background-color: slategray;
 }
 
 .ShadowTree{
@@ -66,15 +94,15 @@ form input,button {
   height: calc(3.5em*3);
 }
 
+.cell-ShadowTree {
+  background-color: skyblue;
+}
+
 .Toilets{
   width: calc(3.5em*3);
   height: calc(3.5em);
 }
 
-.selectable-cell {
-  background-color: lightgreen;
-}
-
-.selected-cell {
-  background-color: lightskyblue;
+.cell-Toilets {
+  background-color: blueviolet;
 }
