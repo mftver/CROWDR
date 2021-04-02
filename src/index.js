@@ -27,7 +27,7 @@ Router
   .add('link', () => {
     SetRouterOutput('div');
   })
-  .add(/grid\/(\d+)/, (fieldId) => {
+  .add(/grid\/([1-6])/, (fieldId) => {
     const htmlTag = 'field-grid';
     document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId}></${htmlTag}>`;
   })
