@@ -4,16 +4,19 @@ import FormStepOne from './components/forms/form-step-1';
 import GridElement from './components/grid/grid';
 import Router from './js/router';
 import WarningElement from './components/warning/warning-element';
-// import WeatherApiServce from './js/weather-api-service';
+// Simply instantiate weather api service
+// eslint-disable-next-line no-unused-vars
+import WeatherApiServce from './js/weather-api-service';
+import WeatherShowcase from './components/weather-showcase/weather-showcase';
 
 window.onload = () => {
-  // console.log(WeatherApiServce);
 };
 
 // Define custom HTML elements
 customElements.define('form-step-one', FormStepOne);
 customElements.define('field-grid', GridElement);
 customElements.define('warning-element', WarningElement);
+customElements.define('weather-showcase', WeatherShowcase);
 
 // Setup router
 function SetRouterOutput(htmlTag) {
