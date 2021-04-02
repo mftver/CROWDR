@@ -21,7 +21,7 @@ export default class GridElement extends HTMLElement {
       const row = table.insertRow();
       for (let j = 0; j < 15; j += 1) {
         const cell = row.insertCell();
-        const text = document.createTextNode(`${i}, ${j}`);
+        const text = document.createTextNode(`${j}, ${i}`);
         cell.setAttribute('data-coord-x', j);
         cell.setAttribute('data-coord-y', i);
         cell.setAttribute('class', 'selectable-cell');

@@ -4,7 +4,6 @@ export default class WeatherShowcase extends HTMLElement {
     document.addEventListener('weatherupdate', (e) => this.Update(e.detail));
   }
 
-  // eslint-disable-next-line class-methods-use-this
   Update(e) {
     this.innerHTML = '';
     const img = new Image(50, 50);
