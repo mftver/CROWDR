@@ -1,6 +1,6 @@
 // Based on https://medium.com/javascript-by-doing/create-a-modern-javascript-router-805fc14d084d
 
-export default class Router {
+class Router {
   routes = [];
 
   root = '/';
@@ -52,3 +52,5 @@ export default class Router {
     });
   }
 }
+
+export default new Router();
