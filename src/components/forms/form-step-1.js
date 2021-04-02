@@ -41,8 +41,9 @@ export default class FormStepOne extends HTMLElement {
 
       TimesFormSubmitted.addTimes();
 
-      if (this.addNextStepToForm(e.target)) {
+      if (!this.addNextStepToForm(e.target)) {
         this.saveForm(formObject);
+
       }
     } else {
       this.showWarnings(warnings);
@@ -102,11 +103,17 @@ export default class FormStepOne extends HTMLElement {
   }
 
   saveForm(formObject) {
-    const id = this.getId();
+    const config = {
+      id: this.getId(),
+      config: formObject,
+    };
 
-    if (id !== null) {
-      localStorage.setItem(`region:${id}`, formObject);
-    }
+    this.dispatchEvent(new CustomEvent('savefieldconfig', {
+      detail: config,
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+    }));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -114,7 +121,7 @@ export default class FormStepOne extends HTMLElement {
     let returnvalue = null;
 
     for (let index = 0; index < 6; index += 1) {
-      const region = localStorage.getItem(`region:${index}`);
+      const region = localStorage.getItem(`fieldConfig:${index}`);
       if (region === null) {
         returnvalue = index;
         break;

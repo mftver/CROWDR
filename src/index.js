@@ -40,6 +40,8 @@ document.addEventListener('resetform', () => {
   localStorage.removeItem('formValues');
 });
 
+document.addEventListener('savefieldconfig', (e) => localStorage.setItem(`fieldConfig:${e.detail.id}`, JSON.stringify(e.detail.config)));
+
 document.addEventListener('placefieldobject', (e) => {
   let field = JSON.parse(localStorage.getItem(`field:${e.detail.fieldId}`));
   // Instantiate object if not yet used
