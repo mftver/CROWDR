@@ -1,8 +1,11 @@
 import FieldObjects from './field-objects';
 
+let placingType = null;
+
 function closeTableCell(tableCell) {
   tableCell.classList.remove('selectable-cell');
   tableCell.classList.add('selected-cell');
+  tableCell.classList.add(`cell-${placingType}`);
 }
 
 function canPlace(xCoordinate, yCoordinate) {
@@ -107,36 +110,30 @@ function place1x3(tableCell) {
 
 export default function placeableMapper(draggedElement, tablecell) {
   let placed = false;
-  let placedType = null;
+  placingType = null;
   if (draggedElement.classList.contains('Tent3x3')) {
+    placingType = FieldObjects.Tent3x3;
     placed = place3x3(tablecell);
-    placedType = FieldObjects.Tent3x3;
-  }
-  if (draggedElement.classList.contains('Tent1x1')) {
+  } else if (draggedElement.classList.contains('Tent1x1')) {
+    placingType = FieldObjects.Tent1x1;
     placed = place1x1(tablecell);
-    placedType = FieldObjects.Tent1x1;
-  }
-  if (draggedElement.classList.contains('Drinks')) {
+  } else if (draggedElement.classList.contains('Drinks')) {
+    placingType = FieldObjects.Drinks;
     placed = place1x2(tablecell);
-    placedType = FieldObjects.Drinks;
-  }
-  if (draggedElement.classList.contains('HighTree')) {
+  } else if (draggedElement.classList.contains('HighTree')) {
+    placingType = FieldObjects.HighTree;
     placed = place1x1(tablecell);
-    placedType = FieldObjects.HighTree;
-  }
-  if (draggedElement.classList.contains('WideTree')) {
+  } else if (draggedElement.classList.contains('WideTree')) {
+    placingType = FieldObjects.WideTree;
     placed = place2x1(tablecell);
-    placedType = FieldObjects.WideTree;
-  }
-  if (draggedElement.classList.contains('ShadowTree')) {
+  } else if (draggedElement.classList.contains('ShadowTree')) {
+    placingType = FieldObjects.ShadowTree;
     placed = place3x3(tablecell);
-    placedType = FieldObjects.ShadowTree;
-  }
-  if (draggedElement.classList.contains('Toilets')) {
+  } else if (draggedElement.classList.contains('Toilets')) {
+    placingType = FieldObjects.Toilets;
     placed = place1x3(tablecell);
-    placedType = FieldObjects.Toilets;
   }
 
   // return the placed type if item was placed
-  return placed ? placedType : null;
+  return placed ? placingType : null;
 }
