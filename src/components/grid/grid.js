@@ -4,11 +4,14 @@ import placeableMapper from '../../js/placement-logic';
 export default class GridElement extends HTMLElement {
   isDragging = false;
 
-  static get observedAttributes() { return ['data-show-placeables']; }
+  fieldId = -1;
+
+  static get observedAttributes() { return ['data-show-placeables', 'data-field-id']; }
 
   constructor() {
     super();
     this.innerHTML = html;
+    this.fieldId = this.GetFieldId();
 
     // Assign mouse event handlers
     this.onmousedown = (e) => this.OnMouseDown(e);
@@ -35,11 +38,18 @@ export default class GridElement extends HTMLElement {
   }
 
   attributeChangedCallback() {
+    // Check if draggables should be visible
     const showPlaceables = this.getAttribute('data-show-placeables');
     if (showPlaceables === 'false') {
       this.querySelector('.draggable-container').style.display = 'none';
     } else {
       this.querySelector('.draggable-container').style.display = '';
+    }
+
+    // Check if field Id has changed
+    if (this.fieldId !== this.GetFieldId()) {
+      this.fieldId = this.GetFieldId();
+      this.GetStoredFieldData();
     }
   }
 
@@ -113,6 +123,12 @@ export default class GridElement extends HTMLElement {
    * Retrieves stored field layout from previous sessions
    */
   GetStoredFieldData() {
+    // Remove all previously assigned classes
+    this.querySelectorAll('td').forEach((cell) => {
+      cell.setAttribute('class', '');
+      cell.classList.add('selectable-cell');
+    });
+
     const fieldData = JSON.parse(localStorage.getItem(`field:${this.GetFieldId()}`));
     if (fieldData === null) return;
 
