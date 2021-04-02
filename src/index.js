@@ -8,6 +8,7 @@ import WarningElement from './components/warning/warning-element';
 // eslint-disable-next-line no-unused-vars
 import WeatherApiServce from './js/weather-api-service';
 import WeatherShowcase from './components/weather-showcase/weather-showcase';
+import simulationGrid from './components/simulation/simulation';
 
 window.onload = () => {
 };
@@ -17,6 +18,7 @@ customElements.define('form-step-one', FormStepOne);
 customElements.define('field-grid', GridElement);
 customElements.define('warning-element', WarningElement);
 customElements.define('weather-showcase', WeatherShowcase);
+customElements.define('simulation-page', simulationGrid);
 
 // Setup router
 function SetRouterOutput(htmlTag) {
@@ -30,6 +32,9 @@ Router
   .add(/grid\/([1-6])/, (fieldId) => {
     const htmlTag = 'field-grid';
     document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId}></${htmlTag}>`;
+  })
+  .add('simulation', () => {
+    SetRouterOutput('simulation-page');
   })
   .add('', () => {
     SetRouterOutput('form-step-one');

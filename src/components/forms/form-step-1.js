@@ -7,6 +7,8 @@ import htmlStep6 from './form-step-6.html';
 import htmlStep7 from './form-step-7.html';
 import FormValidation from './form-validation';
 import TimesFormSubmitted from '../../js/timesSubmittedForm';
+import Router from '../../js/router';
+import router from '../../js/router';
 
 export default class FormStepOne extends HTMLElement {
   constructor() {
@@ -43,11 +45,10 @@ export default class FormStepOne extends HTMLElement {
 
       if (!this.addNextStepToForm(e.target)) {
         this.saveForm(formObject);
-
+        Router.navigate(`/grid/${this.getId() - 1}`);
       }
-    } else {
-      this.showWarnings(warnings);
     }
+    this.showWarnings(warnings);
   }
 
   addNextStepToForm(form) {
@@ -114,13 +115,15 @@ export default class FormStepOne extends HTMLElement {
       cancelable: false,
       composed: true,
     }));
+
+    this.resetForm();
   }
 
   // eslint-disable-next-line class-methods-use-this
   getId() {
     let returnvalue = null;
 
-    for (let index = 0; index < 6; index += 1) {
+    for (let index = 1; index < 7; index += 1) {
       const region = localStorage.getItem(`fieldConfig:${index}`);
       if (region === null) {
         returnvalue = index;
