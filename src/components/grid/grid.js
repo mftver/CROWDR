@@ -4,6 +4,8 @@ import placeableMapper from '../../js/placement-logic';
 export default class GridElement extends HTMLElement {
   isDragging = false;
 
+  static get observedAttributes() { return ['data-show-placeables']; }
+
   constructor() {
     super();
     this.innerHTML = html;
@@ -30,6 +32,15 @@ export default class GridElement extends HTMLElement {
     }
 
     this.GetStoredFieldData();
+  }
+
+  attributeChangedCallback() {
+    const showPlaceables = this.getAttribute('data-show-placeables');
+    if (showPlaceables === 'false') {
+      this.querySelector('.draggable-container').style.display = 'none';
+    } else {
+      this.querySelector('.draggable-container').style.display = '';
+    }
   }
 
   // Event handler for moving item while in drag mode
