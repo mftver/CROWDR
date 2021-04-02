@@ -4,9 +4,10 @@ import FormStepOne from './components/forms/form-step-1';
 import GridElement from './components/grid/grid';
 import Router from './js/router';
 import WarningElement from './components/warning/warning-element';
+// import WeatherApiServce from './js/weather-api-service';
 
 window.onload = () => {
-
+  // console.log(WeatherApiServce);
 };
 
 // Define custom HTML elements
@@ -15,13 +16,11 @@ customElements.define('field-grid', GridElement);
 customElements.define('warning-element', WarningElement);
 
 // Setup router
-const router = new Router();
-
 function SetRouterOutput(htmlTag) {
   document.getElementById('router-output').innerHTML = `<${htmlTag}></${htmlTag}>`;
 }
 
-router
+Router
   .add('link', () => {
     SetRouterOutput('div');
   })
