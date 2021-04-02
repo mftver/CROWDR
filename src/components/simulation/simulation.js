@@ -1,16 +1,12 @@
-function getGrid(id) {
-  return localStorage.getItem(`field:${id}`);
-}
+import grid from '../grid/grid';
 
 function placeAllGrids() {
   const grid = [];
 
   for (let index = 0; index < 6; index + 1) {
-    const temp = getGrid(index);
-    if (temp !== null) {
-      grid.push(grid);
-    } else {
-      break;
+    const field = localStorage.getItem(`field:${index}`);
+    if (field !== null) {
+      this.createItem();
     }
   }
 }
