@@ -127,7 +127,7 @@ export default function placeableMapper(draggedElement, tablecell, tableItem) {
   } else if (draggedElement.classList.contains('HighTree')) {
     placingType = FieldObjects.HighTree;
     placed = place1x1(tablecell);
-  } else if (draggedElement.classList.contains('wideTree')) {
+  } else if (draggedElement.classList.contains('WideTree')) {
     placingType = FieldObjects.WideTree;
     placed = place2x1(tablecell);
   } else if (draggedElement.classList.contains('ShadowTree')) {

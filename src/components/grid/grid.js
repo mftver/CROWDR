@@ -93,7 +93,7 @@ export default class GridElement extends HTMLElement {
       if (tableCell.classList.contains('selectable-cell')) {
         const x = tableCell.getAttribute('data-coord-x');
         const y = tableCell.getAttribute('data-coord-y');
-        const placedType = placeableMapper(draggableElement, tableCell);
+        const placedType = placeableMapper(draggableElement, tableCell, this);
 
         // Check if object was placed
         if (placedType !== null) {

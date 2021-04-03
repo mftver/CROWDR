@@ -80,7 +80,7 @@ form input,button {
   background-color: teal;
 }
 
-.wideTree{
+.WideTree{
   width: calc(3.5em);
   height: calc(3.5em*2);
 }
