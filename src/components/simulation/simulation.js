@@ -1,24 +1,20 @@
 import Person from './person';
 import simulation from './simulation.html';
 
-export default class simulationGrid extends HTMLElement {
+export default class SimulationGrid extends HTMLElement {
   visitors = [];
 
   visitorsInside = [];
 
-  constructor() {
-    super();
-    this.innerHTML = simulation;
-    this.createPeople();
-  }
-
   connectedCallback() {
+    this.innerHTML = simulation;
     this.placeAllGrids();
+    this.createPeople();
   }
 
   placeAllGrids() {
     for (let index = 1; index < 7; index += 1) {
-      const field = localStorage.getItem(`field:${index}`);
+      const field = localStorage.getItem(`fieldConfig:${index}`);
       if (field !== null) {
         this.innerHTML += `<field-grid data-field-id="${index}" data-show-placeables="false"></field-grid>`;
         // This doesn't seem to work
@@ -59,7 +55,7 @@ export default class simulationGrid extends HTMLElement {
     });
   }
 
-  placeVisitor(visitor){
+  placeVisitor(visitor) {
 
   }
 }
