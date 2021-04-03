@@ -61,7 +61,9 @@ Router
   })
   .add(/grid\/([1-6])/, (fieldId) => {
     const htmlTag = 'field-grid';
-    document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId}></${htmlTag}>`;
+    const { locked } = JSON.parse(localStorage.getItem(`fieldConfig:${fieldId}`));
+
+    document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId} data-show-placeables=${!locked}></${htmlTag}>`;
   })
   .add('simulation', () => {
     SetRouterOutput('simulation-page');
@@ -84,6 +86,7 @@ document.addEventListener('savefieldconfig', (e) => {
 });
 
 document.addEventListener('placefieldobject', (e) => {
+  // Store field layout
   let field = JSON.parse(localStorage.getItem(`field:${e.detail.fieldId}`));
   // Instantiate object if not yet used
   if (field === null) {

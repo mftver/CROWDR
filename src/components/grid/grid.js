@@ -6,6 +6,8 @@ export default class GridElement extends HTMLElement {
 
   fieldId = -1;
 
+  placedObjects = {};
+
   static get observedAttributes() { return ['data-show-placeables', 'data-field-id']; }
 
   constructor() {
@@ -19,6 +21,7 @@ export default class GridElement extends HTMLElement {
     this.onmousemove = (e) => this.OnMouseMove(e);
 
     this.querySelector('.grid-reset').onclick = () => this.resetGrid();
+    this.querySelector('.grid-lock').onclick = () => this.lockGrid();
 
     // Generate table
     const table = document.createElement('table');
@@ -32,10 +35,28 @@ export default class GridElement extends HTMLElement {
   resetGrid() {
     this.querySelector('table').remove();
     localStorage.removeItem(`field:${this.GetFieldId()}`);
+    this.placedObjects = {};
+    this.querySelectorAll('.draggable-container > .draggable')
+      .forEach((element) => {
+        // eslint-disable-next-line no-param-reassign
+        element.style.display = '';
+      });
 
     const newtable = document.createElement('table');
     this.appendChild(newtable);
     this.createField(newtable);
+  }
+
+  lockGrid() {
+    this.setAttribute('data-show-placeables', false);
+    const config = this.GetFieldConfig();
+    config.locked = true;
+    document.dispatchEvent(new CustomEvent('savefieldconfig', {
+      detail: {
+        id: this.GetFieldId(),
+        config,
+      },
+    }));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -98,6 +119,7 @@ export default class GridElement extends HTMLElement {
         // Check if object was placed
         if (placedType !== null) {
           this.EmitObjectPlaced(placedType, x, y);
+          this.TrackPlacedObjects(placedType);
         }
       }
       draggableElement.removeAttribute('id');
@@ -128,11 +150,29 @@ export default class GridElement extends HTMLElement {
     }));
   }
 
+  TrackPlacedObjects(objectType) {
+    if (objectType === null) return;
+    // Add item to placement counter
+    if (this.placedObjects[objectType]) {
+      this.placedObjects[objectType] += 1;
+    } else {
+      this.placedObjects[objectType] = 1;
+    }
+
+    if (this.placedObjects[objectType] >= this.GetFieldConfig()[objectType]) {
+      this.querySelector(`.${objectType}`).style.display = 'none';
+    }
+  }
+
   /**
    * @returns ID of the current grid element
    */
   GetFieldId() {
     return this.getAttribute('data-field-id') - 0;
+  }
+
+  GetFieldConfig() {
+    return JSON.parse(localStorage.getItem(`fieldConfig:${this.GetFieldId()}`));
   }
 
   /**
@@ -162,7 +202,8 @@ export default class GridElement extends HTMLElement {
         // to change the corresponding fields around it
         const hoverElement = this.querySelector(`[data-coord-x='${x}'][data-coord-y='${y}']`);
 
-        placeableMapper(fieldElement, hoverElement, this);
+        const placedObject = placeableMapper(fieldElement, hoverElement, this);
+        this.TrackPlacedObjects(placedObject);
       });
     });
   }
