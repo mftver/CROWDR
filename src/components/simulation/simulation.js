@@ -8,7 +8,7 @@ export default class SimulationGrid extends HTMLElement {
 
   placeAllGrids() {
     for (let index = 1; index < 7; index += 1) {
-      const field = localStorage.getItem(`field:${index}`);
+      const field = localStorage.getItem(`fieldConfig:${index}`);
       if (field !== null) {
         this.innerHTML += `<field-grid data-field-id="${index}" data-show-placeables="false"></field-grid>`;
         // This doesn't seem to work
