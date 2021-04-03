@@ -18,7 +18,7 @@ export default class GridElement extends HTMLElement {
     this.onmouseup = (e) => this.OnMouseUp(e);
     this.onmousemove = (e) => this.OnMouseMove(e);
 
-    this.createResetButton();
+    this.querySelector('.grid-reset').onclick = () => this.resetGrid();
 
     // Generate table
     const table = document.createElement('table');
@@ -53,20 +53,13 @@ export default class GridElement extends HTMLElement {
     this.GetFieldId();
   }
 
-  createResetButton() {
-    const button = document.createElement('button');
-    button.innerHTML = 'Reset';
-    button.onclick = () => this.resetGrid();
-    this.appendChild(button);
-  }
-
   attributeChangedCallback() {
     // Check if draggables should be visible
     const showPlaceables = this.getAttribute('data-show-placeables');
     if (showPlaceables === 'false') {
-      this.querySelector('.draggable-container').style.display = 'none';
+      this.querySelector('.interactables').style.display = 'none';
     } else {
-      this.querySelector('.draggable-container').style.display = '';
+      this.querySelector('.interactables').style.display = '';
     }
 
     // Check if field Id has changed
