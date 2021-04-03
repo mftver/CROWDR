@@ -1,16 +1,15 @@
-import Enum from './common/enum';
+/* eslint-disable lines-between-class-members */
+class FieldObjects {
+  Tent3x3 = 'Tent3x3';
+  Tent1x1 = 'Tent1x1';
+  Drinks = 'Drinks';
+  HighTree = 'HighTree';
+  WideTree = 'WideTree';
+  ShadowTree = 'ShadowTree';
+  Toilets = 'Toilets';
 
-class FieldObjects extends Enum {
   constructor() {
-    super(
-      'Tent3x3',
-      'Tent1x1',
-      'Drinks',
-      'HighTree',
-      'WideTree',
-      'ShadowTree',
-      'Toilets',
-    );
+    Object.freeze(this);
   }
 }
 
