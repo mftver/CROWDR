@@ -61,7 +61,9 @@ Router
   })
   .add(/grid\/([1-6])/, (fieldId) => {
     const htmlTag = 'field-grid';
-    document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId}></${htmlTag}>`;
+    const { locked } = JSON.parse(localStorage.getItem(`fieldConfig:${fieldId}`));
+
+    document.getElementById('router-output').innerHTML = `<${htmlTag} data-field-id=${fieldId} data-show-placeables=${!locked}></${htmlTag}>`;
   })
   .add('simulation', () => {
     SetRouterOutput('simulation-page');

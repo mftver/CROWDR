@@ -21,6 +21,7 @@ export default class GridElement extends HTMLElement {
     this.onmousemove = (e) => this.OnMouseMove(e);
 
     this.querySelector('.grid-reset').onclick = () => this.resetGrid();
+    this.querySelector('.grid-lock').onclick = () => this.lockGrid();
 
     // Generate table
     const table = document.createElement('table');
@@ -44,6 +45,18 @@ export default class GridElement extends HTMLElement {
     const newtable = document.createElement('table');
     this.appendChild(newtable);
     this.createField(newtable);
+  }
+
+  lockGrid() {
+    this.setAttribute('data-show-placeables', false);
+    const config = this.GetFieldConfig();
+    config.locked = true;
+    document.dispatchEvent(new CustomEvent('savefieldconfig', {
+      detail: {
+        id: this.GetFieldId(),
+        config,
+      },
+    }));
   }
 
   // eslint-disable-next-line class-methods-use-this
