@@ -43,6 +43,14 @@ export default class Person {
     return this.yPosition;
   }
 
+  getGroup() {
+    return this.group;
+  }
+
+  getPriorities() {
+    return this.priorities;
+  }
+
   reprioritize(weather) {
     const newPriorities = [];
 
