@@ -1,6 +1,7 @@
 import FieldObjects from './field-objects';
 
 let placingType = null;
+let table = null;
 
 function closeTableCell(tableCell) {
   tableCell.classList.remove('selectable-cell');
@@ -9,7 +10,7 @@ function closeTableCell(tableCell) {
 }
 
 function canPlace(xCoordinate, yCoordinate) {
-  const tablecell = document.querySelector(`[data-coord-x='${xCoordinate}'][data-coord-y='${yCoordinate}']`);
+  const tablecell = table.querySelector(`[data-coord-x='${xCoordinate}'][data-coord-y='${yCoordinate}']`);
 
   if (xCoordinate < 0 || xCoordinate > 14 || yCoordinate < 0 || yCoordinate > 14) {
     return false;
@@ -22,7 +23,7 @@ function canPlace(xCoordinate, yCoordinate) {
 
 function placeObject(coordinates) {
   coordinates.forEach((element) => {
-    closeTableCell(document.querySelector(`[data-coord-x='${element[0]}'][data-coord-y='${element[1]}']`));
+    closeTableCell(table.querySelector(`[data-coord-x='${element[0]}'][data-coord-y='${element[1]}']`));
   });
 
   return true;
@@ -110,7 +111,8 @@ function place1x3(tableCell) {
   return false;
 }
 
-export default function placeableMapper(draggedElement, tablecell) {
+export default function placeableMapper(draggedElement, tablecell, tableItem) {
+  table = tableItem;
   let placed = false;
   placingType = null;
   if (draggedElement.classList.contains('Tent3x3')) {

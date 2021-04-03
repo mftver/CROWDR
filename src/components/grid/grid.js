@@ -38,6 +38,7 @@ export default class GridElement extends HTMLElement {
     this.createField(newtable);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   createField(table) {
     for (let i = 0; i < 15; i += 1) {
       const row = table.insertRow();
@@ -50,7 +51,6 @@ export default class GridElement extends HTMLElement {
         cell.appendChild(text);
       }
     }
-    this.GetFieldId();
   }
 
   attributeChangedCallback() {
@@ -162,7 +162,7 @@ export default class GridElement extends HTMLElement {
         // to change the corresponding fields around it
         const hoverElement = this.querySelector(`[data-coord-x='${x}'][data-coord-y='${y}']`);
 
-        placeableMapper(fieldElement, hoverElement);
+        placeableMapper(fieldElement, hoverElement, this);
       });
     });
   }
