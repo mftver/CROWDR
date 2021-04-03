@@ -84,6 +84,7 @@ document.addEventListener('savefieldconfig', (e) => {
 });
 
 document.addEventListener('placefieldobject', (e) => {
+  // Store field layout
   let field = JSON.parse(localStorage.getItem(`field:${e.detail.fieldId}`));
   // Instantiate object if not yet used
   if (field === null) {
