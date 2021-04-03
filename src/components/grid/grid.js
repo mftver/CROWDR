@@ -31,6 +31,8 @@ export default class GridElement extends HTMLElement {
 
   resetGrid() {
     this.querySelector('table').remove();
+    localStorage.removeItem(`field:${this.GetFieldId()}`);
+
     const newtable = document.createElement('table');
     this.appendChild(newtable);
     this.createField(newtable);
