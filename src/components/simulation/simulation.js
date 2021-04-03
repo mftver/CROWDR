@@ -1,12 +1,8 @@
 import simulation from './simulation.html';
 
-export default class simulationGrid extends HTMLElement {
-  constructor() {
-    super();
-    this.innerHTML = simulation;
-  }
-
+export default class SimulationGrid extends HTMLElement {
   connectedCallback() {
+    this.innerHTML = simulation;
     this.placeAllGrids();
   }
 
