@@ -18,10 +18,31 @@ export default class GridElement extends HTMLElement {
     this.onmouseup = (e) => this.OnMouseUp(e);
     this.onmousemove = (e) => this.OnMouseMove(e);
 
+    this.createResetButton();
+
     // Generate table
     const table = document.createElement('table');
     this.appendChild(table);
 
+    console.log(table);
+    this.createField(table);
+
+    this.GetStoredFieldData();
+  }
+
+  resetGrid() {
+    const oldTable = document.querySelector('table');
+    oldTable.remove();
+
+    const newtable = document.createElement('table');
+    this.appendChild(newtable);
+
+    console.log(newtable);
+    this.createField(newtable);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  createField(table) {
     for (let i = 0; i < 15; i += 1) {
       const row = table.insertRow();
       for (let j = 0; j < 15; j += 1) {
@@ -33,8 +54,13 @@ export default class GridElement extends HTMLElement {
         cell.appendChild(text);
       }
     }
+  }
 
-    this.GetStoredFieldData();
+  createResetButton() {
+    const button = document.createElement('button');
+    button.innerHTML = 'Reset';
+    button.onclick = this.resetGrid;
+    this.appendChild(button);
   }
 
   attributeChangedCallback() {

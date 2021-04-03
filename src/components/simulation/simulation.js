@@ -8,13 +8,15 @@ export default class simulationGrid extends HTMLElement {
   }
 
   placeAllGrids() {
-    for (let index = 0; index < 6; index += 1) {
+    for (let index = 1; index < 7; index += 1) {
       const field = localStorage.getItem(`field:${index}`);
       if (field !== null) {
-        const grid = this.createElement('field-grid');
-        grid.setAtribute('data-grid-id', index);
-        grid.setAtribute('data-show-placeables', false);
+        const grid = document.createElement('field-grid');
+        grid.setAttribute('data-grid-id', index);
+        grid.setAttribute('data-show-placeables', false);
         this.appendChild(grid);
+      } else {
+        break;
       }
     }
   }

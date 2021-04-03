@@ -8,7 +8,6 @@ import htmlStep7 from './form-step-7.html';
 import FormValidation from './form-validation';
 import TimesFormSubmitted from '../../js/timesSubmittedForm';
 import Router from '../../js/router';
-import router from '../../js/router';
 
 export default class FormStepOne extends HTMLElement {
   constructor() {
