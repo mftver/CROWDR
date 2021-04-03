@@ -99,7 +99,9 @@ function place1x3(tableCell) {
   const possitionsToBePlaced = new Array(0);
 
   for (let i = 0; i < 3; i += 1) {
-    possitionsToBePlaced.push([xCoordinate + i, yCoordinate]);
+    if (canPlace(xCoordinate + i, yCoordinate)) {
+      possitionsToBePlaced.push([xCoordinate + i, yCoordinate]);
+    }
   }
 
   if (possitionsToBePlaced.length === 3) {
@@ -123,7 +125,7 @@ export default function placeableMapper(draggedElement, tablecell) {
   } else if (draggedElement.classList.contains('HighTree')) {
     placingType = FieldObjects.HighTree;
     placed = place1x1(tablecell);
-  } else if (draggedElement.classList.contains('WideTree')) {
+  } else if (draggedElement.classList.contains('wideTree')) {
     placingType = FieldObjects.WideTree;
     placed = place2x1(tablecell);
   } else if (draggedElement.classList.contains('ShadowTree')) {
