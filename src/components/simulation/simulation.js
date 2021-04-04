@@ -1,7 +1,10 @@
-/* eslint-disable class-methods-use-this */
 import Person from './person';
 import simulation from './simulation.html';
 import FieldObjects from '../../js/field-objects';
+
+// TODO: make people visible
+// TODO: make people placed every 6 seconds
+// TODO: find infinite loop
 
 export default class SimulationGrid extends HTMLElement {
   visitorsOutside = [];
@@ -82,13 +85,21 @@ export default class SimulationGrid extends HTMLElement {
   }
 
   positionPeople() {
-    this.visitorsInsideUnplaced = this.visitorsInsidePlaced;
-    this.visitorsInsidePlaced = [];
+    if (this.visitorsInsidePlaced.length > 0) {
+      this.visitorsInsideUnplaced = this.visitorsInsidePlaced;
+      this.visitorsInsidePlaced = [];
+    }
 
-    this.visitorsInsideUnplaced.forEach((visitor) => {
-      this.placeVisitorWithGroup(visitor);
-      visitor.reprioritize();
-    });
+    for (let index = 0; index < this.visitorsInsideUnplaced.length; index += 1) {
+      this.placeVisitorWithGroup(this.visitorsInsideUnplaced[index]);
+      this.visitorsInsideUnplaced[index].reprioritize();
+
+      this.visitorsInsideUnplaced[index].getGroup().forEach((friend) => {
+        friend.reprioritize();
+      });
+
+      index += this.visitorsInsideUnplaced[index].getGroup() - 1;
+    }
   }
 
   createTicketScanners(number) {
@@ -120,7 +131,7 @@ export default class SimulationGrid extends HTMLElement {
         return;
       }
     }
-    this.placeVisitorDefault(visitor);
+    this.placeVisitorWithGroupDefault(visitor);
   }
 
   placeVisitorWithGroupOnPriority(visitor, priority) {
@@ -136,13 +147,13 @@ export default class SimulationGrid extends HTMLElement {
       case FieldObjects.Tent1x1:
         return this.placeVisitorWithGroupIn1x1(visitor, prefferedFieldObjects);
       case FieldObjects.Drinks:
-        return this.placeVisitorWithGrouprInDrink(visitor, prefferedFieldObjects);
+        return this.placeVisitorWithGroupInDrink(visitor, prefferedFieldObjects);
       case FieldObjects.HighTree:
         return this.placeVisitorWithGroupIn1x1(visitor, prefferedFieldObjects);
       case FieldObjects.WideTree:
         return this.placeVisitorWithGroupInWideTree(visitor, prefferedFieldObjects);
       case FieldObjects.ShadowTree:
-        return this.placeVisitorWithGrouprIn3x3(visitor, prefferedFieldObjects);
+        return this.placeVisitorWithGroupIn3x3(visitor, prefferedFieldObjects);
       default:
         return this.placeVisitorWithGroupInToilet(visitor, prefferedFieldObjects);
     }
@@ -160,8 +171,13 @@ export default class SimulationGrid extends HTMLElement {
             return fieldObjectscoordinates;
           }
 
-          if (field[x][y] === priority) {
-            fieldObjectscoordinates.push({ id: i, xcoordinate: x, ycoordinate: y });
+          if (field[x] !== null
+            && field[x] !== undefined
+            && field[x][y] !== null
+            && field[x][y] !== undefined) {
+            if (field[x][y] === priority) {
+              fieldObjectscoordinates.push({ id: i, xcoordinate: x, ycoordinate: y });
+            }
           }
         }
       }
