@@ -57,7 +57,7 @@ export default class Person {
     let priorityLength = Object.entries(FieldObjects).length;
 
     switch (weather) {
-      case 'Sunny':
+      case 'sunny':
         newPriorities.push(FieldObjects.Drinks);
         this.priorities = this.arrayRemove(this.priorities, FieldObjects.Drinks);
 
@@ -73,7 +73,7 @@ export default class Person {
         priorityLength -= 4;
         break;
 
-      case 'Rainy':
+      case 'rainy':
         newPriorities.push(FieldObjects.Tent3x3);
         this.priorities = this.arrayRemove(this.priorities, FieldObjects.Tent3x3);
         priorityLength -= 1;
