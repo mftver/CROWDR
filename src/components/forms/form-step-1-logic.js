@@ -10,7 +10,7 @@ import TimesFormSubmitted from '../../js/timesSubmittedForm';
 import Router from '../../js/router';
 import SubmitAudio from '../../media/form-submit.mp3';
 
-export default class FormStepOne extends HTMLElement {
+export default class FormStepLogic extends HTMLElement {
   constructor() {
     super();
 

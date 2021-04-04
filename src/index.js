@@ -5,7 +5,7 @@ import 'bootstrap/js/dist/dropdown';
 // Import custom CSS
 import './css/main.css';
 
-import FormStepOne from './components/forms/form-step-1';
+import FormStepLogic from './components/forms/form-step-1-logic';
 import GridElement from './components/grid/grid';
 import Router from './js/router';
 import WarningElement from './components/warning/warning-element';
@@ -43,7 +43,7 @@ window.onload = () => {
 };
 
 // Define custom HTML elements
-customElements.define('form-step-one', FormStepOne);
+customElements.define('form-step-one', FormStepLogic);
 customElements.define('field-grid', GridElement);
 customElements.define('warning-element', WarningElement);
 customElements.define('weather-showcase', WeatherShowcase);
