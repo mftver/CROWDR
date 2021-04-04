@@ -136,8 +136,10 @@ export default class SimulationGrid extends HTMLElement {
             this.visitorsInsideUnplaced.push(groupmember);
           });
           // eslint-disable-next-line max-len
-          this.visitorsOutside = this.visitorsOutside.splice(index, this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().length);
+          this.visitorsOutside = this.visitorsOutside.splice(index - peopleAlreadyLetIn, this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().length);
           peopleAlreadyLetIn += 1;
+        } else {
+          break;
         }
       }
     });
