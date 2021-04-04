@@ -123,6 +123,8 @@ export default class SimulationGrid extends HTMLElement {
     this.ticketScanners.forEach((ticketscanner) => {
       const numberOfPeopleToLetIn = timeBetweenScansInSeconds / ticketscanner;
 
+
+
       for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
         if (this.visitorsOutside[index] !== undefined) {
           this.visitorsInsidePlaced.push(this.visitorsOutside[index]);
@@ -350,6 +352,11 @@ export default class SimulationGrid extends HTMLElement {
   }
 
   doMoreVisitorsFit(coordinate, numberOfVisitors) {
+    const peopleOnCoordinate = this.getPeopleOnCoordinate(coordinate);
+    return (peopleOnCoordinate + numberOfVisitors) <= 7;
+  }
+
+  getPeopleOnCoordinate(coordinate) {
     let visitorsOnCoordinate = 0;
 
     this.visitorsInsidePlaced.forEach((visitor) => {
@@ -358,7 +365,6 @@ export default class SimulationGrid extends HTMLElement {
         visitorsOnCoordinate += 1;
       }
     });
-
-    return (visitorsOnCoordinate + numberOfVisitors) <= 7;
+    return visitorsOnCoordinate;
   }
 }
