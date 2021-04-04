@@ -41,12 +41,14 @@ class FormValidation {
     }
     if (formObject.WideTree !== undefined) {
       warnings.push(this.validateWideTrees(formObject.WideTree, space));
+      space -= ((2 * 1) * formObject.Tent3x3);
     }
     if (formObject.Toilets !== undefined) {
       warnings.push(this.validateToiletBuildings(formObject.Toilets, space));
+      space -= ((3 * 1) * formObject.Tent3x3);
     }
     if (formObject.NumberOfBins !== undefined) {
-      warnings.push(this.validateBins(formObject.NumberOfBins, (15 * 15)));
+      warnings.push(this.validateBins(formObject.NumberOfBins, space));
     }
 
     return this.removeNulls(warnings);
