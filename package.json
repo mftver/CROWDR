@@ -4,7 +4,7 @@
   "description": "Assignment web javascript",
   "main": "assets/js/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cypress open",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
     "build": "webpack",
@@ -25,7 +25,6 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.0",
-    "cypress": "^6.8.0",
     "eslint": "^7.23.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
