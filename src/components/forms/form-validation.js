@@ -11,39 +11,39 @@ class FormValidation {
     if (formObject.MaxNumberofVisitors !== undefined) {
       warnings.push(this.validateVisitors(formObject.MaxNumberofVisitors));
     }
-    if (formObject.NumberOfPartyTents !== undefined) {
-      warnings.push(this.validatePartyTents(formObject.NumberOfPartyTents, space));
-      space -= ((3 * 3) * formObject.NumberOfPartyTents);
+    if (formObject.Tent3x3 !== undefined) {
+      warnings.push(this.validatePartyTents(formObject.Tent3x3, space));
+      space -= ((3 * 3) * formObject.Tent3x3);
     }
-    if (formObject.NumberOfFoodStands !== undefined) {
+    if (formObject.Tent1x1 !== undefined) {
       warnings.push(this.validateFoodStands(
-        formObject.NumberOfFoodStands,
+        formObject.Tent1x1,
         space,
-        formObject.NumberOfPartyTents > 0,
+        formObject.Tent3x3 > 0,
       ));
-      space -= ((1 * 1) * formObject.NumberOfPartyTents);
+      space -= ((1 * 1) * formObject.Tent3x3);
     }
-    if (formObject.NumberOfDrinkStands !== undefined) {
+    if (formObject.Drinks !== undefined) {
       warnings.push(this.validateDrinkStands(
-        formObject.NumberOfDrinkStands,
+        formObject.Drinks,
         space,
-        formObject.NumberOfPartyTents > 0,
+        formObject.Tent3x3 > 0,
       ));
-      space -= ((1 * 2) * formObject.NumberOfPartyTents);
+      space -= ((1 * 2) * formObject.Tent3x3);
     }
-    if (formObject.NumberOfHighTrees !== undefined) {
-      warnings.push(this.validateHighTrees(formObject.NumberOfHighTrees, space));
-      space -= ((1 * 1) * formObject.NumberOfPartyTents);
+    if (formObject.HighTree !== undefined) {
+      warnings.push(this.validateHighTrees(formObject.HighTree, space));
+      space -= ((1 * 1) * formObject.Tent3x3);
     }
-    if (formObject.NumberOfShadowTrees !== undefined) {
-      warnings.push(this.validateShadowTrees(formObject.NumberOfShadowTrees, space));
-      space -= ((3 * 3) * formObject.NumberOfPartyTents);
+    if (formObject.ShadowTree !== undefined) {
+      warnings.push(this.validateShadowTrees(formObject.ShadowTree, space));
+      space -= ((3 * 3) * formObject.Tent3x3);
     }
-    if (formObject.NumberOfWideTrees !== undefined) {
-      warnings.push(this.validateWideTrees(formObject.NumberOfWideTrees, space));
+    if (formObject.WideTree !== undefined) {
+      warnings.push(this.validateWideTrees(formObject.WideTree, space));
     }
-    if (formObject.NumberOfToiletBuildings !== undefined) {
-      warnings.push(this.validateToiletBuildings(formObject.NumberOfToiletBuildings, space));
+    if (formObject.Toilets !== undefined) {
+      warnings.push(this.validateToiletBuildings(formObject.Toilets, space));
     }
     if (formObject.NumberOfBins !== undefined) {
       warnings.push(this.validateBins(formObject.NumberOfBins));
@@ -69,31 +69,31 @@ class FormValidation {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validatePartyTents(NumberOfPartyTents, space) {
-    if (NumberOfPartyTents < 0) {
+  validatePartyTents(Tent3x3, space) {
+    if (Tent3x3 < 0) {
       return 'Het aantal tenten kan niet negatief zijn';
     }
-    if (((3 * 3) * NumberOfPartyTents) > space) {
+    if (((3 * 3) * Tent3x3) > space) {
       return 'Het aantal tenten past niet';
     }
     return null;
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validateFoodStands(NumberOfFoodStands, space, isTentPlaced) {
-    if (NumberOfFoodStands < 0) {
+  validateFoodStands(Tent1x1, space, isTentPlaced) {
+    if (Tent1x1 < 0) {
       return 'Het aantal eetkraampjes kan niet negatief zijn';
     }
 
-    if (isTentPlaced && NumberOfFoodStands > 3) {
+    if (isTentPlaced && Tent1x1 > 3) {
       return 'Het aantal eetkraampjes mag niet meer dan 3 zijn';
     }
 
-    if (NumberOfFoodStands > 6) {
+    if (Tent1x1 > 6) {
       return 'Het aantal eetkraampjes mag niet meer dan 6 zijn';
     }
 
-    if (((1 * 1) * NumberOfFoodStands) > space) {
+    if (((1 * 1) * Tent1x1) > space) {
       return 'Het aantal eetkraampjes past niet';
     }
 
@@ -101,20 +101,20 @@ class FormValidation {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validateDrinkStands(NumberOfDrinkStands, space, isTentPlaced) {
-    if (NumberOfDrinkStands < 0) {
+  validateDrinkStands(Drinks, space, isTentPlaced) {
+    if (Drinks < 0) {
       return 'Het aantal drankkraampjes kan niet negatief zijn';
     }
 
-    if (isTentPlaced && NumberOfDrinkStands > 2) {
+    if (isTentPlaced && Drinks > 2) {
       return 'Het aantal drankkraampjes mag niet meer dan 2 zijn';
     }
 
-    if (NumberOfDrinkStands > 4) {
+    if (Drinks > 4) {
       return 'Het aantal drankkraampjes mag niet meer dan 4 zijn';
     }
 
-    if (((1 * 2) * NumberOfDrinkStands) > space) {
+    if (((1 * 2) * Drinks) > space) {
       return 'Het aantal drankkraampjes past niet';
     }
 
@@ -122,12 +122,12 @@ class FormValidation {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validateHighTrees(NumberOfHighTrees, space) {
-    if (NumberOfHighTrees < 0) {
+  validateHighTrees(HighTree, space) {
+    if (HighTree < 0) {
       return 'Het aantal hogenbomen kan niet negatief zijn';
     }
 
-    if (((1 * 1) * NumberOfHighTrees) > space) {
+    if (((1 * 1) * HighTree) > space) {
       return 'Het aantal hogenbomen past niet';
     }
 
@@ -135,12 +135,12 @@ class FormValidation {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validateShadowTrees(NumberOfShadowTrees, space) {
-    if (NumberOfShadowTrees < 0) {
+  validateShadowTrees(ShadowTree, space) {
+    if (ShadowTree < 0) {
       return 'Het aantal schaduwbomen kan niet negatief zijn';
     }
 
-    if (((3 * 3) * NumberOfShadowTrees) > space) {
+    if (((3 * 3) * ShadowTree) > space) {
       return 'Het aantal schaduwbomen past niet';
     }
 
@@ -148,12 +148,12 @@ class FormValidation {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validateWideTrees(NumberOfWideTrees, space) {
-    if (NumberOfWideTrees < 0) {
+  validateWideTrees(WideTree, space) {
+    if (WideTree < 0) {
       return 'Het aantal brede bomen kan niet negatief zijn';
     }
 
-    if (((2 * 1) * NumberOfWideTrees) > space) {
+    if (((2 * 1) * WideTree) > space) {
       return 'Het aantal brede bomen past niet';
     }
 
@@ -161,16 +161,16 @@ class FormValidation {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  validateToiletBuildings(NumberOfToiletBuildings, space) {
-    if (NumberOfToiletBuildings < 0) {
+  validateToiletBuildings(Toilets, space) {
+    if (Toilets < 0) {
       return 'Het aantal toiletten kan niet negatief zijn';
     }
 
-    if (NumberOfToiletBuildings > 5) {
+    if (Toilets > 5) {
       return 'Het aantal toiletten mag niet meer dan 5 zijn';
     }
 
-    if (((1 * 3) * NumberOfToiletBuildings) > space) {
+    if (((1 * 3) * Toilets) > space) {
       return 'Het aantal toiletten past niet';
     }
 

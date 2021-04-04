@@ -1,18 +1,21 @@
+import WarningSound from '../../media/warning-sound.mp3';
 export default class WarningElement extends HTMLElement {
   static get observedAttributes() { return ['data-warnings']; }
 
   connectedCallback() {
-    this.style.visibility = 'hidden';
+    this.style.visibility = 'none';
   }
 
   attributeChangedCallback() {
     const warnings = JSON.parse(this.getAttribute('data-warnings'));
 
-    if (warnings === null) {
-      this.style.visibility = 'hidden';
+    if (warnings === null || warnings.length === 0) {
+      this.style.display = 'none';
       return;
     }
-    this.style.visibility = 'visible';
+
+    this.style.display = '';
+    new Audio(WarningSound).play();
 
     this.innerHTML = '';
     warnings.forEach((warning) => {

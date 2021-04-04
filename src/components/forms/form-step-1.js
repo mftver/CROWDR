@@ -8,6 +8,7 @@ import htmlStep7 from './form-step-7.html';
 import FormValidation from './form-validation';
 import TimesFormSubmitted from '../../js/timesSubmittedForm';
 import Router from '../../js/router';
+import SubmitAudio from '../../media/form-submit.mp3';
 
 export default class FormStepOne extends HTMLElement {
   constructor() {
@@ -43,6 +44,8 @@ export default class FormStepOne extends HTMLElement {
       TimesFormSubmitted.addTimes();
 
       if (!this.addNextStepToForm(e.target)) {
+        new Audio(SubmitAudio).play();
+
         this.saveForm(formObject);
         Router.navigate(`/grid/${this.getId() - 1}`);
       }
