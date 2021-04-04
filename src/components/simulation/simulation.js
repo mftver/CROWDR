@@ -1,6 +1,7 @@
 import Person from './person';
 import simulation from './simulation.html';
 import FieldObjects from '../../js/field-objects';
+import WeatherApiService from '../../js/weather-api-service';
 
 // TODO: make people visible
 // TODO: make people placed every 6 seconds
@@ -19,6 +20,11 @@ export default class SimulationGrid extends HTMLElement {
     this.placeAllGrids();
     this.createPeople();
     this.formGroups();
+
+    // setInterval(() => {
+    //   this.positionPeople(WeatherApiService.weatherType);
+    //   this.letPeopleEnter(6);
+    // }, 6000);
 
     this.visitorsInsideUnplaced = this.visitorsOutside;
     this.positionPeople();
@@ -87,7 +93,7 @@ export default class SimulationGrid extends HTMLElement {
     }
   }
 
-  positionPeople() {
+  positionPeople(weather) {
     if (this.visitorsInsidePlaced.length > 0) {
       this.visitorsInsideUnplaced = this.visitorsInsidePlaced;
       this.visitorsInsidePlaced = [];
@@ -97,10 +103,10 @@ export default class SimulationGrid extends HTMLElement {
 
     for (let index = 0; index < visitorsToBePlaced; index += 1) {
       this.placeVisitorWithGroup(this.visitorsInsideUnplaced[index]);
-      this.visitorsInsideUnplaced[index].reprioritize();
+      this.visitorsInsideUnplaced[index].reprioritize(weather);
 
       this.visitorsInsideUnplaced[index].getGroup().forEach((friend) => {
-        friend.reprioritize();
+        friend.reprioritize(weather);
       });
 
       index += this.visitorsInsideUnplaced[index].getGroup().length;
@@ -135,6 +141,7 @@ export default class SimulationGrid extends HTMLElement {
       const priority = visitor.getPriorities()[index];
 
       if (this.placeVisitorWithGroupOnPriority(visitor, priority)) {
+        console.log(`i hit this ${index} times`);
         return;
       }
     }
@@ -147,6 +154,8 @@ export default class SimulationGrid extends HTMLElement {
     if (prefferedFieldObjects === null) {
       return false;
     }
+
+    console.log(priority);
 
     switch (priority) {
       case FieldObjects.Tent3x3:
@@ -209,6 +218,7 @@ export default class SimulationGrid extends HTMLElement {
           clonedCoordinate.ycoordinate += y;
 
           if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+            console.log('place in 3x3 placed person with group');
             this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
             isPlaced = true;
@@ -228,9 +238,11 @@ export default class SimulationGrid extends HTMLElement {
     prefferedFieldObjects.forEach((fieldObject) => {
       // check if the persons group can be placed on the coordinate
       if (this.doMoreVisitorsFit(fieldObject, visitor.getGroup().length + 1)) {
+        console.log('place in 1x1 placed person with group');
         this.placeVisitorWithGroupOnCoordinate(visitor, fieldObject);
 
         isPlaced = true;
+        return;
       }
     });
 
@@ -248,6 +260,7 @@ export default class SimulationGrid extends HTMLElement {
         clonedCoordinate.xcoordinate += x;
 
         if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+          console.log('place in drink placed person with group');
           this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
           isPlaced = true;
@@ -270,6 +283,7 @@ export default class SimulationGrid extends HTMLElement {
         clonedCoordinate.ycoordinate += y;
 
         if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+          console.log('place in wide tree placed person with group');
           this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
           isPlaced = true;
@@ -294,6 +308,7 @@ export default class SimulationGrid extends HTMLElement {
         const clonedCoordinate = JSON.parse(JSON.stringify(fieldObject));
         clonedCoordinate.xcoordinate += x;
         if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+          console.log('place in toilet placed person with group');
           this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
           isPlaced = true;
@@ -312,6 +327,7 @@ export default class SimulationGrid extends HTMLElement {
           if (this.doMoreVisitorsFit(i, x, y, visitor.getGroup().length + 1)) {
             // eslint-disable-next-line max-len
             this.placeVisitorWithGroupOnCoordinate(visitor, { id: i, xcoordinate: x, ycoordinate: y });
+            console.log('place default placed person with group');
 
             return true;
           }
