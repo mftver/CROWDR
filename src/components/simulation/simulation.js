@@ -22,13 +22,38 @@ export default class SimulationGrid extends HTMLElement {
     this.formGroups();
     this.createTicketScanners(3);
 
-    setInterval(() => {
-      this.letPeopleEnter(6);
-      this.positionPeople(WeatherApiService.weatherType);
-    }, 6000);
+    // setInterval(() => {
+    //   this.letPeopleEnter(6);
+    //   this.positionPeople(WeatherApiService.weatherType);
+    //   this.drawPeopleOnGrid();
+    // }, 6000);
 
-    // this.visitorsInsideUnplaced = this.visitorsOutside;
-    // this.positionPeople();
+    this.visitorsInsideUnplaced = this.visitorsOutside;
+    this.positionPeople();
+    this.drawPeopleOnGrid();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  drawPeopleOnGrid() {
+    const gridsInUse = [];
+    for (let i = 0; i < 6; i += 1) {
+      if (localStorage.getItem(`fieldConfig:${i}`) !== null) {
+        gridsInUse.push(i);
+      }
+    }
+
+    gridsInUse.forEach((gridId) => {
+      // const grid = JSON.parse(localStorage.getItem(`field:${gridId}`));
+      for (let x = 0; x < 15; x += 1) {
+        for (let y = 0; y < 15; y += 1) {
+          const people = this.getPeopleOnCoordinate({ id: gridId, xcoordinate: x, ycoordinate: y });
+          if (people !== 0) {
+            const gridElement = this.querySelector(`[data-field-id="${gridId}"] [data-coord-x="${x}"][data-coord-y="${y}"]`);
+            gridElement.innerHTML = people;
+          }
+        }
+      }
+    });
   }
 
   placeAllGrids() {
@@ -122,8 +147,6 @@ export default class SimulationGrid extends HTMLElement {
   letPeopleEnter(timeBetweenScansInSeconds) {
     this.ticketScanners.forEach((ticketscanner) => {
       const numberOfPeopleToLetIn = timeBetweenScansInSeconds / ticketscanner;
-
-
 
       for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
         if (this.visitorsOutside[index] !== undefined) {
