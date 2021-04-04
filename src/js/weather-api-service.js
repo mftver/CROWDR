@@ -1,7 +1,7 @@
 class WeatherApiService {
   constructor() {
     this.Update();
-    setInterval(this.Update, 60000);
+    setInterval(this.Update, 6000);
   }
 
   WeatherType = 'sunny';
@@ -15,7 +15,7 @@ class WeatherApiService {
         if (data.weather[0].id >= 800) {
           this.UpdateWeather('sunny');
         } else {
-          this.UpdateWeather('rainy');
+          this.UpdateWeather('sainy');
         }
       })
       .catch((error) => {

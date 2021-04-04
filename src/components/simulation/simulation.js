@@ -132,7 +132,9 @@ export default class SimulationGrid extends HTMLElement {
 
   placeVisitorWithGroup(visitor) {
     for (let index = 0; index < visitor.getPriorities().length; index += 1) {
-      if (this.placeVisitorWithGroupOnPriority(visitor, visitor.getPriorities()[index])) {
+      const priority = visitor.getPriorities()[index];
+
+      if (this.placeVisitorWithGroupOnPriority(visitor, priority)) {
         return;
       }
     }
@@ -191,8 +193,9 @@ export default class SimulationGrid extends HTMLElement {
   }
 
   placeVisitorWithGroupIn3x3(visitor, prefferedFieldObjects) {
+    let isPlaced = false;
+
     // check all the preffered objects if there is a spot
-    // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
       const coordinate = fieldObject;
       coordinate.xcoordinate -= 1;
@@ -208,31 +211,36 @@ export default class SimulationGrid extends HTMLElement {
           if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
             this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
-            return true;
+            isPlaced = true;
+            return;
           }
         }
       }
     });
-    return false;
+
+    return isPlaced;
   }
 
   placeVisitorWithGroupIn1x1(visitor, prefferedFieldObjects) {
+    let isPlaced = false;
+
     // check all the preffered objects if there is a spot
-    // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
       // check if the persons group can be placed on the coordinate
       if (this.doMoreVisitorsFit(fieldObject, visitor.getGroup().length + 1)) {
         this.placeVisitorWithGroupOnCoordinate(visitor, fieldObject);
 
-        return true;
+        isPlaced = true;
       }
     });
-    return false;
+
+    return isPlaced;
   }
 
   placeVisitorWithGroupInDrink(visitor, prefferedFieldObjects) {
+    let isPlaced = false;
+
     // check all the preffered objects if there is a spot
-    // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
       // check all the coordinates of the fieldObject
       for (let x = 0; x < 2; x += 1) {
@@ -242,16 +250,19 @@ export default class SimulationGrid extends HTMLElement {
         if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
           this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
-          return true;
+          isPlaced = true;
+          return;
         }
       }
     });
-    return false;
+
+    return isPlaced;
   }
 
   placeVisitorWithGroupInWideTree(visitor, prefferedFieldObjects) {
+    let isPlaced = false;
+
     // check all the preffered objects if there is a spot
-    // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
       // check all the coordinates of the fieldObject
       for (let y = 0; y < 2; y += 1) {
@@ -261,16 +272,19 @@ export default class SimulationGrid extends HTMLElement {
         if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
           this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
-          return true;
+          isPlaced = true;
+          return;
         }
       }
     });
-    return false;
+
+    return isPlaced;
   }
 
   placeVisitorWithGroupInToilet(visitor, prefferedFieldObjects) {
+    let isPlaced = false;
+
     // check all the preffered objects if there is a spot
-    // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
       const coordinate = fieldObject;
       coordinate.xcoordinate -= 1;
@@ -281,11 +295,13 @@ export default class SimulationGrid extends HTMLElement {
         clonedCoordinate.xcoordinate += x;
         if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
           this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
-          return true;
+
+          isPlaced = true;
+          return;
         }
       }
     });
-    return false;
+    return isPlaced;
   }
 
   placeVisitorWithGroupDefault(visitor) {
