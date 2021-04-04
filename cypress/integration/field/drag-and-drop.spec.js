@@ -8,7 +8,7 @@ context('Drag and drop testing', () => {
   });
 
 
-  it('Cannot drag party tent to field 0,0', () => {
+  it('Cannot drag party tent to field 1,0', () => {
     cy.get('.draggable-container .Tent3x3').trigger('mousedown');
     cy.get('[data-coord-x="1"][data-coord-y="0"]').trigger('mousemove');
     cy.get('#dragging').trigger('mouseup');
@@ -16,7 +16,7 @@ context('Drag and drop testing', () => {
     cy.get('[data-coord-x="1"][data-coord-y="0"]').should('not.have.class', 'selected-cell')
   });
 
-  it('Can drag party tent to field 0,1', () => {
+  it('Can drag party tent to field 1,1', () => {
     cy.get('.draggable-container .Tent3x3').trigger('mousedown');
     cy.get('[data-coord-x="1"][data-coord-y="1"]').trigger('mousemove');
     cy.get('#dragging').trigger('mouseup');
@@ -25,10 +25,11 @@ context('Drag and drop testing', () => {
   });
 
   it('Cannot place more than configured number of tents', () => {
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 6; i += 3) {
       cy.get('.draggable-container .Tent3x3').trigger('mousedown');
-      cy.get('[data-coord-x="1"][data-coord-y="1"]').trigger('mousemove');
+      cy.get(`[data-coord-x="1"][data-coord-y="${i}"]`).trigger('mousemove');
       cy.get('#dragging').trigger('mouseup');
     }
+    cy.get('.draggable-container .Tent3x3').should('not.be.visible')
   });
 });
