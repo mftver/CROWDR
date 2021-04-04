@@ -59,7 +59,6 @@ export default class FormStepLogic extends HTMLElement {
       // Remove button from form to append it at bottom later
       const submitButton = form.querySelector('button[type=submit]');
       submitButton.parentNode.removeChild(submitButton);
-      // eslint-disable-next-line no-param-reassign
       form.insertAdjacentHTML('beforeend', htmlToAdd);
       form.appendChild(submitButton);
       return true;
