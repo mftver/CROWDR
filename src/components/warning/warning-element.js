@@ -1,4 +1,5 @@
 import WarningSound from '../../media/warning-sound.mp3';
+
 export default class WarningElement extends HTMLElement {
   static get observedAttributes() { return ['data-warnings']; }
 
