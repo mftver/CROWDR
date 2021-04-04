@@ -78,7 +78,7 @@ context('Form validation', () => {
     cy.get('.alert').should('contain.text', 'Het aantal prullenbakken mag niet meer dan 5% van de overige ruimte zijn');
   });
 
-  it('Can occupy max number of bin -1', () => {
+  it('Can occupy exactly 5% of field space', () => {
     // Bins
     cy.get('input').each((el) => cy.wrap(el).clear().type(0));
     cy.get('[name="MaxNumberofVisitors"]').type(1);
