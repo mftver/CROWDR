@@ -122,22 +122,19 @@ export default class SimulationGrid extends HTMLElement {
   letPeopleEnter(timeBetweenScansInSeconds) {
     this.ticketScanners.forEach((ticketscanner) => {
       const numberOfPeopleToLetIn = timeBetweenScansInSeconds / ticketscanner;
-
-
+      let peopleAlreadyLetIn = 0;
 
       for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
         if (this.visitorsOutside[index] !== undefined) {
-          this.visitorsInsidePlaced.push(this.visitorsOutside[index]);
+          this.visitorsInsidePlaced.push(this.visitorsOutside[index - peopleAlreadyLetIn]);
 
-          this.visitorsOutside[index].getGroup().forEach((groupmember) => {
+          this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().forEach((groupmember) => {
             this.visitorsInsidePlaced.push(groupmember);
           });
+          // eslint-disable-next-line max-len
+          this.visitorsOutside = this.visitorsOutside.splice(index, this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().length);
+          peopleAlreadyLetIn += 1;
         }
-      }
-
-      for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
-        // eslint-disable-next-line max-len
-        this.visitorsOutside = this.visitorsOutside.splice(index, this.visitorsOutside[index].getGroup().length);
       }
     });
   }
