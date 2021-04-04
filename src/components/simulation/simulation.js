@@ -23,7 +23,11 @@ export default class SimulationGrid extends HTMLElement {
     this.createTicketScanners(3);
 
     setInterval(() => {
+      console.log(this.visitorsOutside);
+      console.log(this.visitorsInsideUnplaced);
       this.letPeopleEnter(6);
+      console.log(this.visitorsOutside);
+      console.log(this.visitorsInsideUnplaced);
       this.positionPeople(WeatherApiService.weatherType);
     }, 6000);
 
@@ -126,10 +130,10 @@ export default class SimulationGrid extends HTMLElement {
 
       for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
         if (this.visitorsOutside[index] !== undefined) {
-          this.visitorsInsidePlaced.push(this.visitorsOutside[index - peopleAlreadyLetIn]);
+          this.visitorsInsideUnplaced.push(this.visitorsOutside[index - peopleAlreadyLetIn]);
 
           this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().forEach((groupmember) => {
-            this.visitorsInsidePlaced.push(groupmember);
+            this.visitorsInsideUnplaced.push(groupmember);
           });
           // eslint-disable-next-line max-len
           this.visitorsOutside = this.visitorsOutside.splice(index, this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().length);
@@ -324,7 +328,8 @@ export default class SimulationGrid extends HTMLElement {
     for (let i = 1; i < 7; i += 1) {
       for (let x = 0; x < 15; x += 1) {
         for (let y = 0; y < 15; y += 1) {
-          if (this.doMoreVisitorsFit(i, x, y, visitor.getGroup().length + 1)) {
+          // eslint-disable-next-line max-len
+          if (this.doMoreVisitorsFit({ id: i, xcoordinate: x, ycoordinate: y }, visitor.getGroup().length + 1)) {
             // eslint-disable-next-line max-len
             this.placeVisitorWithGroupOnCoordinate(visitor, { id: i, xcoordinate: x, ycoordinate: y });
 
