@@ -29,10 +29,33 @@ export default class SimulationGrid extends HTMLElement {
       console.log(this.visitorsOutside);
       console.log(this.visitorsInsideUnplaced);
       this.positionPeople(WeatherApiService.weatherType);
+      this.drawPeopleOnGrid();
     }, 6000);
+  }
 
-    // this.visitorsInsideUnplaced = this.visitorsOutside;
-    // this.positionPeople();
+  // eslint-disable-next-line class-methods-use-this
+  drawPeopleOnGrid() {
+    const gridsInUse = [];
+    for (let i = 0; i < 6; i += 1) {
+      if (localStorage.getItem(`fieldConfig:${i}`) !== null) {
+        gridsInUse.push(i);
+      }
+    }
+
+    gridsInUse.forEach((gridId) => {
+      // const grid = JSON.parse(localStorage.getItem(`field:${gridId}`));
+      for (let x = 0; x < 15; x += 1) {
+        for (let y = 0; y < 15; y += 1) {
+          const people = this.getPeopleOnCoordinate({ id: gridId, xcoordinate: x, ycoordinate: y });
+          const gridElement = this.querySelector(`[data-field-id="${gridId}"] [data-coord-x="${x}"][data-coord-y="${y}"]`);
+          if (people !== 0) {
+            gridElement.innerHTML = people;
+          } else {
+            gridElement.innerHTML = '';
+          }
+        }
+      }
+    });
   }
 
   placeAllGrids() {
@@ -126,7 +149,6 @@ export default class SimulationGrid extends HTMLElement {
   letPeopleEnter(timeBetweenScansInSeconds) {
     this.ticketScanners.forEach((ticketscanner) => {
       const numberOfPeopleToLetIn = timeBetweenScansInSeconds / ticketscanner;
-      let peopleAlreadyLetIn = 0;
 
       for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
         if (this.visitorsOutside[index] !== undefined) {
