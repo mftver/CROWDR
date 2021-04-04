@@ -1,7 +1,7 @@
 class WeatherApiService {
   constructor() {
     this.Update();
-    setInterval(this.Update, 60000);
+    setInterval(() => this.Update(), 6000);
   }
 
   WeatherType = 'sunny';
