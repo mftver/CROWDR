@@ -22,15 +22,16 @@ export default class SimulationGrid extends HTMLElement {
     this.formGroups();
     this.createTicketScanners(3);
 
+    this.updateSimulation();
     setInterval(() => {
-      console.log(this.visitorsOutside);
-      console.log(this.visitorsInsideUnplaced);
-      this.letPeopleEnter(6);
-      console.log(this.visitorsOutside);
-      console.log(this.visitorsInsideUnplaced);
-      this.positionPeople(WeatherApiService.weatherType);
-      this.drawPeopleOnGrid();
+      this.updateSimulation();
     }, 6000);
+  }
+
+  updateSimulation() {
+    this.letPeopleEnter(6);
+    this.positionPeople(WeatherApiService.weatherType);
+    this.drawPeopleOnGrid();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -149,20 +150,24 @@ export default class SimulationGrid extends HTMLElement {
   letPeopleEnter(timeBetweenScansInSeconds) {
     this.ticketScanners.forEach((ticketscanner) => {
       const numberOfPeopleToLetIn = timeBetweenScansInSeconds / ticketscanner;
+      let peopleEntered = 0;
+      // eslint-disable-next-line for-direction
+      for (let index = 0; index >= 0; index += 1) {
+        // Check if queue is empty
+        if (this.visitorsOutside.length === 0) break;
 
-      for (let index = 0; index < numberOfPeopleToLetIn; index += 1) {
-        if (this.visitorsOutside[index] !== undefined) {
-          this.visitorsInsideUnplaced.push(this.visitorsOutside[index - peopleAlreadyLetIn]);
+        // Get visitor and their group and enter
+        const peopleToEnter = this.visitorsOutside[index].getGroup();
+        peopleToEnter.push(this.visitorsOutside[index]);
+        this.visitorsInsideUnplaced.push(...peopleToEnter);
 
-          this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().forEach((groupmember) => {
-            this.visitorsInsideUnplaced.push(groupmember);
-          });
-          // eslint-disable-next-line max-len
-          this.visitorsOutside = this.visitorsOutside.splice(index - peopleAlreadyLetIn, this.visitorsOutside[index - peopleAlreadyLetIn].getGroup().length);
-          peopleAlreadyLetIn += 1;
-        } else {
-          break;
-        }
+        // Update visitors outside
+        this.visitorsOutside.splice(index, peopleToEnter.length);
+
+        index -= peopleToEnter.length;
+
+        peopleEntered += peopleToEnter.length;
+        if (peopleEntered >= numberOfPeopleToLetIn) break;
       }
     });
   }
