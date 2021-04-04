@@ -4,7 +4,6 @@ import FieldObjects from '../../js/field-objects';
 
 // TODO: make people visible
 // TODO: make people placed every 6 seconds
-// TODO: find infinite loop
 
 export default class SimulationGrid extends HTMLElement {
   visitorsOutside = [];
@@ -20,6 +19,10 @@ export default class SimulationGrid extends HTMLElement {
     this.placeAllGrids();
     this.createPeople();
     this.formGroups();
+
+    this.visitorsInsideUnplaced = this.visitorsOutside;
+    this.positionPeople();
+    console.log(this.visitorsInsidePlaced);
   }
 
   placeAllGrids() {
@@ -90,7 +93,9 @@ export default class SimulationGrid extends HTMLElement {
       this.visitorsInsidePlaced = [];
     }
 
-    for (let index = 0; index < this.visitorsInsideUnplaced.length; index += 1) {
+    const visitorsToBePlaced = this.visitorsInsideUnplaced.length;
+
+    for (let index = 0; index < visitorsToBePlaced; index += 1) {
       this.placeVisitorWithGroup(this.visitorsInsideUnplaced[index]);
       this.visitorsInsideUnplaced[index].reprioritize();
 
@@ -98,7 +103,7 @@ export default class SimulationGrid extends HTMLElement {
         friend.reprioritize();
       });
 
-      index += this.visitorsInsideUnplaced[index].getGroup() - 1;
+      index += this.visitorsInsideUnplaced[index].getGroup().length;
     }
   }
 
@@ -189,17 +194,19 @@ export default class SimulationGrid extends HTMLElement {
     // check all the preffered objects if there is a spot
     // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
-      // determine the coordinate of the fieldObject
-      // eslint-disable-next-line max-len
-      const coordinate = { id: fieldObject[0], xcoordinate: fieldObject[1] - 1, ycoordinate: fieldObject[2] - 1 };
+      const coordinate = fieldObject;
+      coordinate.xcoordinate -= 1;
+      coordinate.ycoordinate -= 1;
 
       // check all the coordinates of the fieldObject
       for (let x = 0; x < 3; x += 1) {
         for (let y = 0; y < 3; y += 1) {
-          // eslint-disable-next-line max-len
-          if (this.doMoreVisitorsFit(coordinate[0], coordinate[1] + x, coordinate[2] + y, visitor.getGroup().length + 1)) {
-            // eslint-disable-next-line max-len
-            this.placeVisitorWithGroupOnCoordinate(visitor, { id: coordinate[0], xcoordinate: coordinate[1] + x, ycoordinate: coordinate[2] + y });
+          const clonedCoordinate = JSON.parse(JSON.stringify(coordinate));
+          clonedCoordinate.xcoordinate += x;
+          clonedCoordinate.ycoordinate += y;
+
+          if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+            this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
             return true;
           }
@@ -213,14 +220,9 @@ export default class SimulationGrid extends HTMLElement {
     // check all the preffered objects if there is a spot
     // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
-      // determine the coordinate of the fieldObject
-      // eslint-disable-next-line max-len
-      const coordinate = { id: fieldObject[0], xcoordinate: fieldObject[1], ycoordinate: fieldObject[2] };
-
       // check if the persons group can be placed on the coordinate
-      // eslint-disable-next-line max-len
-      if (this.doMoreVisitorsFit(coordinate[0], coordinate[1], coordinate[2], visitor.getGroup().length + 1)) {
-        this.placeVisitorWithGroupOnCoordinate(visitor, coordinate);
+      if (this.doMoreVisitorsFit(fieldObject, visitor.getGroup().length + 1)) {
+        this.placeVisitorWithGroupOnCoordinate(visitor, fieldObject);
 
         return true;
       }
@@ -232,16 +234,13 @@ export default class SimulationGrid extends HTMLElement {
     // check all the preffered objects if there is a spot
     // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
-      // determine the coordinate of the fieldObject
-      // eslint-disable-next-line max-len
-      const coordinate = { id: fieldObject[0], xcoordinate: fieldObject[1], ycoordinate: fieldObject[2] };
-
       // check all the coordinates of the fieldObject
       for (let x = 0; x < 2; x += 1) {
-        // eslint-disable-next-line max-len
-        if (this.doMoreVisitorsFit(coordinate[0], coordinate[1] + x, coordinate[2], visitor.getGroup().length + 1)) {
-          // eslint-disable-next-line max-len
-          this.placeVisitorWithGroupOnCoordinate(visitor, { id: coordinate[0], xcoordinate: coordinate[1] + x, ycoordinate: coordinate[2] });
+        const clonedCoordinate = JSON.parse(JSON.stringify(fieldObject));
+        clonedCoordinate.xcoordinate += x;
+
+        if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+          this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
           return true;
         }
@@ -254,16 +253,13 @@ export default class SimulationGrid extends HTMLElement {
     // check all the preffered objects if there is a spot
     // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
-      // determine the coordinate of the fieldObject
-      // eslint-disable-next-line max-len
-      const coordinate = { id: fieldObject[0], xcoordinate: fieldObject[1], ycoordinate: fieldObject[2] };
-
       // check all the coordinates of the fieldObject
       for (let y = 0; y < 2; y += 1) {
-        // eslint-disable-next-line max-len
-        if (this.doMoreVisitorsFit(coordinate[0], coordinate[1], coordinate[2] + y, visitor.getGroup().length + 1)) {
-          // eslint-disable-next-line max-len
-          this.placeVisitorWithGroupOnCoordinate(visitor, { id: coordinate[0], xcoordinate: coordinate[1], ycoordinate: coordinate[2] + y });
+        const clonedCoordinate = JSON.parse(JSON.stringify(fieldObject));
+        clonedCoordinate.ycoordinate += y;
+
+        if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+          this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
 
           return true;
         }
@@ -276,17 +272,15 @@ export default class SimulationGrid extends HTMLElement {
     // check all the preffered objects if there is a spot
     // eslint-disable-next-line consistent-return
     prefferedFieldObjects.forEach((fieldObject) => {
-      // determine the coordinate of the fieldObject
-      // eslint-disable-next-line max-len
-      const coordinate = { id: fieldObject[0], xcoordinate: fieldObject[1] - 1, ycoordinate: fieldObject[2] };
+      const coordinate = fieldObject;
+      coordinate.xcoordinate -= 1;
 
       // check all the coordinates of the fieldObject
       for (let x = 0; x < 3; x += 1) {
-        // eslint-disable-next-line max-len
-        if (this.doMoreVisitorsFit(coordinate[0], coordinate[1] + x, coordinate[2], visitor.getGroup().length + 1)) {
-          // eslint-disable-next-line max-len
-          this.placeVisitorWithGroupOnCoordinate(visitor, { id: coordinate[0], xcoordinate: coordinate[1] + x, ycoordinate: coordinate[2] });
-
+        const clonedCoordinate = JSON.parse(JSON.stringify(fieldObject));
+        clonedCoordinate.xcoordinate += x;
+        if (this.doMoreVisitorsFit(clonedCoordinate, visitor.getGroup().length + 1)) {
+          this.placeVisitorWithGroupOnCoordinate(visitor, clonedCoordinate);
           return true;
         }
       }
@@ -299,7 +293,6 @@ export default class SimulationGrid extends HTMLElement {
     for (let i = 1; i < 7; i += 1) {
       for (let x = 0; x < 15; x += 1) {
         for (let y = 0; y < 15; y += 1) {
-          // eslint-disable-next-line max-len
           if (this.doMoreVisitorsFit(i, x, y, visitor.getGroup().length + 1)) {
             // eslint-disable-next-line max-len
             this.placeVisitorWithGroupOnCoordinate(visitor, { id: i, xcoordinate: x, ycoordinate: y });
@@ -313,23 +306,23 @@ export default class SimulationGrid extends HTMLElement {
   }
 
   placeVisitorWithGroupOnCoordinate(visitor, coordinate) {
-    visitor.setGrid(coordinate[0]);
-    visitor.setCoordinate(coordinate[1], coordinate[2]);
+    visitor.setGrid(coordinate.id);
+    visitor.setCoordinate(coordinate.xcoordinate, coordinate.ycoordinate);
     this.visitorsInsidePlaced.push(visitor);
 
     visitor.getGroup().forEach((friend) => {
-      friend.setGrid(coordinate[0]);
-      friend.setCoordinate(coordinate[1], coordinate[2]);
+      friend.setGrid(coordinate.id);
+      friend.setCoordinate(coordinate.xcoordinate, coordinate.ycoordinate);
       this.visitorsInsidePlaced.push(friend);
     });
   }
 
-  doMoreVisitorsFit(fieldid, xcoordinate, ycoordinate, numberOfVisitors) {
+  doMoreVisitorsFit(coordinate, numberOfVisitors) {
     let visitorsOnCoordinate = 0;
 
     this.visitorsInsidePlaced.forEach((visitor) => {
       // eslint-disable-next-line max-len
-      if (visitor.getGridId() === fieldid && visitor.getxCoordinate() === xcoordinate && visitor.getyCoordinate() === ycoordinate) {
+      if (visitor.getGridId() === coordinate.id && visitor.getxCoordinate() === coordinate.xcoordinate && visitor.getyCoordinate() === coordinate.ycoordinate) {
         visitorsOnCoordinate += 1;
       }
     });
