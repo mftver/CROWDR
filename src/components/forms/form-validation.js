@@ -46,7 +46,7 @@ class FormValidation {
       warnings.push(this.validateToiletBuildings(formObject.Toilets, space));
     }
     if (formObject.NumberOfBins !== undefined) {
-      warnings.push(this.validateBins(formObject.NumberOfBins));
+      warnings.push(this.validateBins(formObject.NumberOfBins, (15 * 15)));
     }
 
     return this.removeNulls(warnings);
