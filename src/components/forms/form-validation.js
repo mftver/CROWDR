@@ -1,5 +1,6 @@
 class FormValidation {
-  // eslint-disable-next-line class-methods-use-this
+  leftoverSpace;
+
   isFormCorrect(formObject) {
     const warnings = [];
 
@@ -50,6 +51,8 @@ class FormValidation {
     if (formObject.NumberOfBins !== undefined) {
       warnings.push(this.validateBins(formObject.NumberOfBins, space));
     }
+
+    this.leftoverSpace = space;
 
     return this.removeNulls(warnings);
   }

@@ -70,6 +70,8 @@ export default class FormStepLogic extends HTMLElement {
   // eslint-disable-next-line class-methods-use-this
   decideWhatStepIsNext() {
     const timesSubmitted = TimesFormSubmitted.getTimes();
+    let step7 = htmlStep7;
+
     switch (timesSubmitted) {
       case 2:
         return htmlStep2;
@@ -87,7 +89,8 @@ export default class FormStepLogic extends HTMLElement {
         return htmlStep6;
 
       case 7:
-        return htmlStep7;
+        step7 += `<label id="maxNumberOfBins">maximaal aantal prullenbakken: ${Math.floor((FormValidation.leftoverSpace / 100) * 5)}</label>`;
+        return step7;
 
       default:
         return null;
