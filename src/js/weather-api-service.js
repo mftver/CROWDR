@@ -15,7 +15,7 @@ class WeatherApiService {
         if (data.weather[0].id >= 800) {
           this.UpdateWeather('sunny');
         } else {
-          this.UpdateWeather('sainy');
+          this.UpdateWeather('rainy');
         }
       })
       .catch((error) => {
